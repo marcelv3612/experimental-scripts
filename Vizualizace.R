@@ -155,6 +155,13 @@ ggplot(data=Stats1, aes(x=SS_Total, y=SUM_EX, col=Role)) +
 # 7. Zohlednit Pilot vs Navigator podle osobnosti
 # - kovj19
 
+# 8. Udělat šest chlívečků: která role koho baví nejvíc 
+# (Max-Pilot, Max-Solo, Max-Nav), (Min-Pilot, Min-Solo, Min-Nav)
+# tak jeho B5 dát do toho chlívečku. A pak zanalyzovat shluky těchto B5.
+# Tzn. že těch cca 50 lidí x2 (jejich nejoblíbenější a nejmíň oblíbená) dáme do 6 chlívečků
+
+# 9. Udělat rozhodovací strom a natrénovat ho.
+
 
 # poznámka: první a poslední vnitřní kola mohou být specifická - zvážit jejich odstranění, příp. soustředění se pouze na ně. 
 
