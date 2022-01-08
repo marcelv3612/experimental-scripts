@@ -1,6 +1,6 @@
 
 # Dependencies
-list.of.packages <- c("openxlsx","tidyr","RColorBrewer","magrittr","tidyverse")
+list.of.packages <- c("openxlsx","magrittr","tidyverse")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 lapply(list.of.packages, require, character.only = TRUE)
@@ -31,11 +31,13 @@ motivation_by_role <- Stats %>% as_tibble %>%
   mutate(Role = factor(Role))
 
 # means by each group and ANOVA (not significant)
-motivation_by_role %>% group_by(Role) %>% summarize(mean(mean_motivation))
+motivation_by_role %>% group_by(Role) %>% 
+  summarize(Mean=mean(mean_motivation)) %>% 
+  as.data.frame
 motivation_by_role %$% aov(mean_motivation ~ Role) %>% summary
 
 #
-ordered_results = Stats %>% 
+ordered_results <- Stats %>% 
   as_tibble %>%
   select(Initials, Exc_round, INNER_R1:Role_06) %>%
   gather(Round,Result,INNER_R1:INNER_R6, factor_key=TRUE) %>%
@@ -52,16 +54,42 @@ ordered_results = Stats %>%
 #############################################
 # 1. Najít protikladné dynamiky u jedince v režimu Solo vs Team, tzn. tvar písmene M vs W (Excel)
 
-motivation_by_role %>% group_by(Initials) %>% 
+# All
+mot_range_all = motivation_by_role %>% 
+  group_by(Initials) %>% 
+  summarize(rng = max(mean_motivation)-min(mean_motivation),pct = n()) %>% 
+  filter(pct > 1) %>% 
+  select(-pct) %>% 
+  mutate(rng_f=cut(rng, breaks=c(-1,0,1,2,3,4,5,7,10), 
+                   labels=c("0","(0,1]","(1,2]","(2,3]","(3,4]","(4,5]","(5,7]",">7")))
+
+mot_range_all %>% arrange(desc(rng))
+mot_range_all %>% arrange(rng)
+
+ggplot(mot_range_all, aes(x = rng_f)) + 
+  geom_bar(stat="count", col = "black", fill = "blue", width = 1) 
+  
+
+# Team
+mot_range_team = motivation_by_role %>% 
+  group_by(Initials) %>% 
   filter(Role %in% c("Navigator","Pilot")) %>% 
   summarize(rng = max(mean_motivation)-min(mean_motivation),pct = n()) %>% 
   filter(pct > 1) %>% 
   select(-pct) %>% 
-  arrange(desc(rng))
+  mutate(rng_f=cut(rng, breaks=c(-1,0,1,2,3,4,5,7,10), 
+                   labels=c("0","(0,1]","(1,2]","(2,3]","(3,4]","(4,5]","(5,7]",">7")))
+
+mot_range_team %>% arrange(desc(rng))
+mot_range_team %>% arrange(rng)
+
+ggplot(mot_range_team, aes(x = rng_f)) + 
+  geom_bar(stat="count", col = "black", fill = "blue", width = 1) 
 
 
 #############################################
-# 2. Prověřit dynamiku, tzn. identifikovat zda některé typy os. měli stále rostoucí trend v motivaci (příp. stále klesající)
+# 2. Prověřit dynamiku, tzn. identifikovat zda některé typy os. měli stále 
+  # rostoucí trend v motivaci (příp. stále klesající)
 # - katj00
 
 
@@ -72,20 +100,6 @@ team_res <- ordered_results %>%
   filter(Round %in% c("INNER_R1","INNER_R2")) %>% 
   select(Initials,Role,Result1=Result,Result2,Result3)
 team_res
-
-# Solo results
-solo_res <- ordered_results %>%
-  filter(Role == "Solo") %>% 
-  mutate(Result1 = Result,
-         Result2 = lead(Result,1),
-         Result3 = lead(Result,2),
-         Result4 = lead(Result,3),
-         Result5 = lead(Result,4),
-         Result6 = lead(Result,5)) %>% 
-  filter(Round == "INNER_R1") %>% 
-  select(Initials,Role,Result1,Result2,Result3,Result4,Result5,Result6)
-solo_res
-
 
 # dynamics
 team_pil_dyn <- team_res %>% 
@@ -104,6 +118,20 @@ team_nav_dyn <- team_res %>%
   mutate(mean_dynamics = (c1_2+c2_3)/2)
 team_nav_dyn
 
+
+# Solo results
+solo_res <- ordered_results %>%
+  filter(Role == "Solo") %>% 
+  mutate(Result1 = Result,
+         Result2 = lead(Result,1),
+         Result3 = lead(Result,2),
+         Result4 = lead(Result,3),
+         Result5 = lead(Result,4),
+         Result6 = lead(Result,5)) %>% 
+  filter(Round == "INNER_R1") %>% 
+  select(Initials,Role,Result1,Result2,Result3,Result4,Result5,Result6)
+solo_res
+
 solo_dyn <- solo_res %>% 
   mutate(c1_2 = sign(Result2 - Result1),
          c2_3 = sign(Result3 - Result2),
@@ -113,6 +141,8 @@ solo_dyn <- solo_res %>%
   mutate(mean_dynamics = (c1_2+c2_3+c3_4+c4_5+c5_6)/5) %>% 
   select(-(Result1:Result6)) 
 solo_dyn
+
+# TODO prechod na navigátora/ prechod na pilota
 
 team_pil_dyn %>% summarize(mean = mean(mean_dynamics))
 team_nav_dyn %>% summarize(mean = mean(mean_dynamics))
@@ -137,13 +167,15 @@ print("nenašiel som absolútne žiadny vzťah...")
 # 5. Bottom-Up = zbavíme se noise.
 
 print("???")
+# TODO nugget search -- kvalitatívne
+# I.P.A. Interpretative phenomenological analysis 
 
 #############################################
 # 6. Identifikovat skokany mezi outer-rounds (vnějšími koly).
 
 # differences between each groups
 # might be helpful to indentify which personal characteristics are the most crucial - does not
-motivation_by_role %>% group_by(Initials) %>% 
+motivation_by_role %>% group_by(Initials) %>% # týmito začať v 5ke
   summarize(rng = max(mean_motivation)-min(mean_motivation)) %>% 
   arrange(desc(rng))
 
@@ -172,6 +204,7 @@ motivation_by_role %>% group_by(Initials) %>%
 # tak jeho B5 dát do toho chlívečku. A pak zanalyzovat shluky těchto B5.
 # Tzn. že těch cca 50 lidí x2 (jejich nejoblíbenější a nejmíň oblíbená) dáme do 6 chlívečků
 
+# rozdielne počty lebo viac hodnot baví najviac, menej najmenej 
 # min
 min_motivation <- motivation_by_role %>% 
   group_by(Initials) %>% 
@@ -202,7 +235,7 @@ DTree_data_upr <- motivation_by_role %>%
 
 #rownames(DTree_data_upr) <- DTree_data_upr$Initials
 
-DTree_data_upr %<>% select(-Initials)
+DTree_data_upr <- DTree_data_upr %>% select(-Initials)
 
 set.seed(0)
 shuffle_index <- sample(1:nrow(DTree_data_upr))
@@ -236,19 +269,21 @@ table_mat <- table(data_test$Role, predict_unseen)
 table_mat
 
 accuracy_Test <- sum(diag(table_mat)) / sum(table_mat)
-           
+accuracy_Test     
 
 DTree_data_upr %$% table(Role,HC_BS_3)
 DTree_data_upr %$% table(Role,HC_BS_SS_2)
 DTree_data_upr %$% table(Role,HC_BS_SS_4) 
-           
+
 #############################################
 # poznámka: první a poslední vnitřní kola mohou být specifická - zvážit jejich odstranění, příp. soustředění se pouze na ně. 
 
 
+# task 10 TODO top priority
+# proc Zastoupení rolí v extremních hodnotách škály motivace
+# ked je navigátor môže sa dostať na nízku uroveň motivácie
 
-
-
+# task 11 doplniť statistické významnosti - neni moc kam
 
 
 

@@ -114,6 +114,8 @@ Stats = data.frame(Start_time = Start_time,
                     Role_04 = `06_Role`, Role_05 = `07_Role`, Role_06 = `08_Role`)
 detach(data)
 
+Stats[Stats$Initials == "korn02" & Stats$Exc_round == 3, "Role_05"] <- "Pilot"
+
 rm(list = c("data","i","len"))
 
 write.xlsx(subset(Stats,select = -c(Start_time, Completion_time, Gender, 

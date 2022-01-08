@@ -1,0 +1,285 @@
+---
+title: "Experiment results"
+output:
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Personality experiment
+
+## Source data
+
+This document is build upon online responses to experiment. For more details of formular see <https://forms.office.com/Pages/DesignPage.aspx?fragment=FormId%3Ds6RRKz9EBkSMpBkFanmkRJhd4hfW5HhLh5Wwt_Lf-39URFMzSDVZRFdQU0lOQTFGNzlLUVYwQzlDOS4u%26Token%3D56e9a97e4333464d9a7610ee4504d045>.
+
+A couple of packages will be used for processing the data: **openxlsx, openssl, tidyverse, magrittr**
+
+
+```{r packages, message=FALSE, warning=FALSE, include=FALSE}
+list.of.packages <- c("openxlsx","openssl","tidyverse","magrittr")
+lapply(list.of.packages, require, character.only = TRUE)
+```
+
+## Preprocessing steps
+
+There are some steps to preprocess the data.
+
+* Due to duplicate column names all names are changed for processing purposes.
+* Roles from form are translated to their original meaning.
+* Mistakes in name are updated to persons xname.
+* Wrong answers are filtered out.
+
+Derived columns
+* Personality characteristics are calculated based on answers.
+* Summary statistics for exams are calculated.
+
+```{r preprocessing, message=FALSE, warning=FALSE, include=FALSE}
+source("01_Preprocessing.R")
+Stats <- subset(Stats,!(Student_ID %in% c("1ac81dbe09bf3f0f3eac3d67ebc7c53e") & Exc_round  == 1))
+Stats <- subset(Stats,!(Student_ID %in% c("6f1c1fea47a3b121012af306c5824c02") & Exc_round  == 2))
+Stats <- subset(Stats,!(Student_ID %in% c("9547de7153ef46ae8a67d6548b3c2e25"))) # hasp00
+theme_set(theme_minimal())
+```
+
+## Results 
+
+
+```{r motivation_by_role, message=FALSE, warning=FALSE, include=FALSE}
+# students with average(for exercises) motivation by role
+motivation_by_role <- Stats %>% as_tibble %>%
+  select(Initials, Exc_round, INNER_R1:Role_06) %>%
+  gather(Round,Result,INNER_R1:INNER_R6, factor_key=TRUE) %>%
+  mutate(Role = case_when(Round == "INNER_R1" ~ Role_01,
+                          Round == "INNER_R2" ~ Role_02,
+                          Round == "INNER_R3" ~ Role_03,
+                          Round == "INNER_R4" ~ Role_04,
+                          Round == "INNER_R5" ~ Role_05,
+                          Round == "INNER_R6" ~ Role_06)) %>%
+  select(Initials, Role, Exc_round, Round, Result) %>% 
+  group_by(Initials, Role) %>% 
+  summarize(mean_motivation = mean(Result), .groups = "keep") %>% 
+  mutate(Role = factor(Role))
+```
+
+### Anova
+
+Means per each group.
+```{r group_means, echo=FALSE, message=FALSE, warning=FALSE}
+motivation_by_role %>% group_by(Role) %>% 
+  summarize(Mean=mean(mean_motivation)) %>% 
+  as.data.frame
+```
+
+Analysis of variance shows that differences between means are not statistically significant. Therefore we analyse results with respect to personality. 
+
+```{r AnoVa, echo=FALSE, message=FALSE, warning=FALSE}
+motivation_by_role %$% aov(mean_motivation ~ Role) %>% summary
+```
+
+
+```{r ordered_results, message=FALSE, warning=FALSE, include=FALSE}
+ordered_results <- Stats %>% 
+  as_tibble %>%
+  select(Initials, Exc_round, INNER_R1:Role_06) %>%
+  gather(Round,Result,INNER_R1:INNER_R6, factor_key=TRUE) %>%
+  mutate(Role = case_when(Round == "INNER_R1" ~ Role_01,
+                          Round == "INNER_R2" ~ Role_02,
+                          Round == "INNER_R3" ~ Role_03,
+                          Round == "INNER_R4" ~ Role_04,
+                          Round == "INNER_R5" ~ Role_05,
+                          Round == "INNER_R6" ~ Role_06))%>%
+  select(Initials, Role, Exc_round, Round, Result) %>% 
+  arrange(Initials,Role) 
+```
+
+
+```{r mot_range_all, echo=FALSE, message=FALSE, warning=FALSE}
+mot_range_all = motivation_by_role %>% 
+  group_by(Initials) %>% 
+  summarize(rng = max(mean_motivation)-min(mean_motivation),pct = n()) %>% 
+  filter(pct > 1) %>% 
+  select(-pct) %>% 
+  mutate(rng_f=cut(rng, breaks=c(-1,0,1,2,3,4,5,7,10), 
+                   labels=c("0","(0,1]","(1,2]","(2,3]","(3,4]","(4,5]","(5,7]",">7")))
+
+ggplot(mot_range_all, aes(x = rng_f)) + 
+  geom_bar(stat="count", col = "black", fill = "blue", width = 1) 
+```
+
+
+
+```{r mot_range_team, echo=FALSE, message=FALSE, warning=FALSE}
+mot_range_team = motivation_by_role %>% 
+  group_by(Initials) %>% 
+  filter(Role %in% c("Navigator","Pilot")) %>% 
+  summarize(rng = max(mean_motivation)-min(mean_motivation),pct = n()) %>% 
+  filter(pct > 1) %>% 
+  select(-pct) %>% 
+  mutate(rng_f=cut(rng, breaks=c(-1,0,1,2,3,4,5,7,10), 
+                   labels=c("0","(0,1]","(1,2]","(2,3]","(3,4]","(4,5]","(5,7]",">7")))
+
+ggplot(mot_range_team, aes(x = rng_f)) + 
+  geom_bar(stat="count", col = "black", fill = "blue", width = 1) 
+```
+
+
+
+```{r dyn_solo, message=FALSE, warning=FALSE, include=FALSE}
+
+dyn_solo <- ordered_results %>%
+  filter(Role == "Solo") %>% 
+  mutate(Result1 = Result,
+         Result2 = lead(Result,1),
+         Result3 = lead(Result,2),
+         Result4 = lead(Result,3),
+         Result5 = lead(Result,4),
+         Result6 = lead(Result,5)) %>% 
+  filter(Round == "INNER_R1") %>% 
+  select(Initials,Role,Result1,Result2,Result3,Result4,Result5,Result6) %>% 
+  mutate(c1_2 = sign(Result2 - Result1),
+         c2_3 = sign(Result3 - Result2),
+         c3_4 = sign(Result4 - Result3),
+         c4_5 = sign(Result5 - Result4),
+         c5_6 = sign(Result6 - Result5)) %>% 
+  mutate(mean_dynamics = (c1_2+c2_3+c3_4+c4_5+c5_6)/5) %>% 
+  select(-(Result1:Result6)) %>% 
+  group_by(Motivation=factor(sign(mean_dynamics))) %>%  
+  summarize(cnt = n()) %>% 
+  mutate(Role = factor("Solo"))
+
+```
+
+
+
+```{r dyn_nav, message=FALSE, warning=FALSE, include=FALSE}
+
+dyn_team <- ordered_results %>%
+  filter(Role %in% c("Navigator","Pilot")) %>% 
+  mutate(Result2 = lead(Result,1),Result3 = lead(Result,2)) %>% 
+  filter(Round %in% c("INNER_R1","INNER_R2")) %>% 
+  select(Initials,Role,Result1=Result,Result2,Result3) %>% 
+  mutate(c1_2 = sign(Result2 - Result1),
+         c2_3 = sign(Result3 - Result2)) %>% 
+  select(-(Result1:Result3)) 
+
+dyn_nav = dyn_team %>% 
+  filter(Role == "Navigator") %>% 
+  mutate(mean_dynamics = (c1_2+c2_3)/2) %>% 
+  group_by(Motivation = factor(sign(mean_dynamics))) %>% 
+  summarize(cnt = n()) %>% 
+  mutate(Role = factor("Navigator"))
+
+```
+
+
+
+```{r dyn_pilot, message=FALSE, warning=FALSE, include=FALSE}
+
+dyn_pil = dyn_team %>% 
+  filter(Role == "Pilot") %>% 
+  mutate(mean_dynamics = (c1_2+c2_3)/2) %>% 
+  group_by(Motivation = factor(sign(mean_dynamics))) %>%
+  summarize(cnt = n()) %>% 
+  mutate(Role = factor("Pilot"))
+
+```
+
+
+
+```{r dyn_chart, echo=FALSE, message=FALSE, warning=FALSE}
+
+dyn = rbind(dyn_solo, dyn_nav, dyn_pil)
+
+levels(dyn$Motivation) = c("Decreasing","Consistent","Increasing")
+
+ggplot(dyn, aes(x = Role, y = cnt, fill = Motivation)) +
+  geom_bar(stat = "identity", position=position_dodge()) +
+  xlab("") + ylab("") + ggtitle("Motivation by role")
+
+```
+
+
+```{r RoleChange, message=FALSE, warning=FALSE, include=FALSE}
+vs_dyn <- ordered_results %>% 
+  arrange(Initials, Exc_round, Round) %>%
+  filter(Role %in% c("Navigator","Pilot")) %>% 
+  mutate(N_1 = ifelse(Role == "Navigator",Result,lead(Result,1)),
+         N_2 = ifelse(Role == "Navigator",lead(Result,2),lead(Result,3)),
+         N_3 = ifelse(Role == "Navigator",lead(Result,4),lead(Result,5)),
+         P_1 = ifelse(Role == "Pilot",Result,lead(Result,1)),
+         P_2 = ifelse(Role == "Pilot",lead(Result,2),lead(Result,3)),
+         P_3 = ifelse(Role == "Pilot",lead(Result,4),lead(Result,5))) %>% 
+  filter(Round %in% c("INNER_R1")) %>% 
+  select(Initials,Role,N_1,N_2,N_3,P_1,P_2,P_3)  %>% 
+  mutate(PtoN_1 = ifelse(Role == "Pilot",sign(N_1-P_1),sign(N_2-P_1)),
+         PtoN_2 = ifelse(Role == "Pilot",sign(N_2-P_2),sign(N_3-P_2)),
+         PtoN_3 = ifelse(Role == "Pilot",sign(N_3-P_3),NaN),
+         NtoP_1 = ifelse(Role == "Pilot",sign(P_1-N_1),sign(P_2-N_1)),
+         NtoP_2 = ifelse(Role == "Pilot",sign(P_2-N_2),sign(P_3-N_2)),
+         NtoP_3 = ifelse(Role == "Pilot",sign(P_3-N_3),NaN)) %>% 
+  mutate(PtoN = factor(sign(PtoN_1+PtoN_2+ifelse(is.na(PtoN_3),0,PtoN_3))),
+         NtoP = factor(sign(NtoP_1+NtoP_2+ifelse(is.na(NtoP_3),0,NtoP_3)))) %>% 
+select(Initials, PtoN, NtoP)
+
+
+vsd = rbind(data.frame(Initials = vs_dyn$Initials,
+                       Stat = vs_dyn$PtoN,
+                       RoleChange = "Pilot to Navigator"),
+            data.frame(Initials = vs_dyn$Initials,
+                       Stat = vs_dyn$NtoP,
+                       RoleChange = "Navigator to Pilot"))
+
+levels(vsd$Stat) = c("Decreasing","Consistent","Increasing")
+
+```
+
+
+```{r RoleChange_chart, echo=FALSE, message=FALSE, warning=FALSE}
+ggplot(vsd, aes(x = RoleChange, fill = Stat)) +
+  geom_bar(stat = "count", position=position_dodge()) +
+  xlab("") + ylab("") + ggtitle("Prechod medzi rolami v týme") 
+```
+
+
+```{r TODO, message=FALSE, warning=FALSE, include=FALSE}
+
+```
+
+
+
+
+
+
+## Anomalies
+
+```{r Anomalies, message=FALSE, warning = FALSE, include=FALSE}
+source("04_Anomalies.R")
+```
+
+Following chart show relationship between differences in general results, vs. results with respect to team role.
+
+```{r anom1_chart, echo=TRUE, message=FALSE, warning = FALSE}
+ggplot(dt, aes(x = max_rng_team, y = max_rng, col = Initials)) +
+  geom_point() + xlab("Rozdiel v motivácii medzi výsledkami v týme") +
+  ylab("Max. rozdiel v motivácii medzi výsledkami") + 
+  ggtitle("Rozdiely medzi týmovými/netýmovými výsledkami")
+```
+
+
+```{r anom1, echo=TRUE, message=FALSE, warning = FALSE}
+print(zaujimavy_vysledok1)
+```
+
+
+## Results 
+
+...
+
+
+
+
+
+
+

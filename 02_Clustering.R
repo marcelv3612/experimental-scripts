@@ -1,7 +1,7 @@
 
 
 # Dependencies
-list.of.packages <- c("openxlsx","tidyverse")
+list.of.packages <- c("openxlsx","tidyverse","magrittr")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 lapply(list.of.packages, require, character.only = TRUE)
@@ -10,16 +10,17 @@ rm(list = c("list.of.packages","new.packages"))
 # read xlsx data if it does not exist yet
 if (!exists("Stats")) Stats <- openxlsx::read.xlsx("Stats.xlsx", sheet = "Sheet 1")
 
+# TODO prumer radšej ako posledné TODO -- nechceme mať neceločíslené hodnoty
 last_PS <- Stats %>% group_by(Initials) %>% summarize(MER = max(Exc_round))
 
 # for both clustering options (w/wo SS) Ward's method gives more clear cluster split
 
-# clustering based on BS
+# clustering based on B5
 clust_data <- Stats %>% 
   inner_join(last_PS, by = c("Initials","Exc_round"="MER")) %>% 
   select(Initials, B5_O:B5_N)
 
-clust_data <- clust_data[-40,] # kala filled the form twice, remove the first try
+#clust_data <- clust_data[-40,] # old update not...
 rownames(clust_data) <- clust_data$Initials
 clust_data %<>% select(-Initials)
 
