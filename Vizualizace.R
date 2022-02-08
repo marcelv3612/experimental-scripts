@@ -1,15 +1,14 @@
-library(corrgram)
-library(ggplot2)
 
 # Dependencies
-list.of.packages <- c("ggplot2","openxlsx","tidyr","RColorBrewer")
+list.of.packages <- c("openxlsx","tidyr","RColorBrewer","magrittr","tidyverse")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 lapply(list.of.packages, require, character.only = TRUE)
 rm(list = c("list.of.packages","new.packages"))
 
-# read xlsx data
-Stats <- openxlsx::read.xlsx("Stats.xlsx", sheet = "Sheet 1")
+# read xlsx data if it does not exist yet
+if (!exists("Stats")) Stats <- openxlsx::read.xlsx("Stats.xlsx", sheet = "Sheet 1")
+
 
 Stats <- subset(Stats,!(Student_ID %in% c("1ac81dbe09bf3f0f3eac3d67ebc7c53e") & Exc_round  == 1)) #
 Stats <- subset(Stats,!(Student_ID %in% c("6f1c1fea47a3b121012af306c5824c02") & Exc_round  == 2)) #
@@ -56,29 +55,17 @@ ggplot(data_graph_1, aes(x=cols, y=Avg, fill=cols)) +
   theme(axis.text.x = element_text(angle = 90), 
         legend.position = "none")
 
-# correlogram
-dev.new()
-corrgram(Stats[Stats$Role == "Team",], order=NULL, lower.panel=panel.shade,
-         upper.panel=NULL, text.panel=panel.txt, main="Teams")
-dev.new()
-corrgram(Stats[Stats$Role == "Solo",], order=NULL, lower.panel=panel.shade,
-         upper.panel=NULL, text.panel=panel.txt, main="Solo")
-
-
-dev.off()
-dev.off()
-
-
-# wide to long data
-data_long <- gather(Stats, stat, value, B5_O:INNER_R6, factor_key=TRUE)
-
-# take only exercices
-data_long$exercise <- as.numeric(substr(data_long$stat,8,8))*1
-ex_results_long <- subset(data_long,!is.na(data_long$exercise))
-
-# test - print
-data_long$exercise
-unique(data_long$exercise)
+### correlogram
+# dev.new()
+# corrgram(Stats[Stats$Role == "Team",], order=NULL, lower.panel=panel.shade,
+#          upper.panel=NULL, text.panel=panel.txt, main="Teams")
+# dev.new()
+# corrgram(Stats[Stats$Role == "Solo",], order=NULL, lower.panel=panel.shade,
+#          upper.panel=NULL, text.panel=panel.txt, main="Solo")
+# 
+# 
+# dev.off()
+# dev.off()
 
 # Stats by round
 Stats1 = subset(Stats, Stats$Exc_round == 1)
@@ -136,40 +123,84 @@ ggplot(data=Stats1, aes(x=SS_Total, y=SUM_EX, col=Role)) +
   geom_point(size=5) + theme_bw() 
 
 
+# wide to long data
+data_long <- gather(Stats, stat, value, B5_O:INNER_R6, factor_key=TRUE)
+
+# take only exercices
+data_long$exercise <- as.numeric(substr(data_long$stat,8,8))*1
+ex_results_long <- subset(data_long,!is.na(data_long$exercise))
 
 
+motivation_by_role <- Stats %>% as_tibble %>%
+  select(Initials, Exc_round, INNER_R1:Role_06) %>%
+  gather(Round,Result,INNER_R1:INNER_R6, factor_key=TRUE) %>%
+  mutate(Role = case_when(Round == "INNER_R1" ~ Role_01,
+                          Round == "INNER_R2" ~ Role_02,
+                          Round == "INNER_R3" ~ Role_03,
+                          Round == "INNER_R4" ~ Role_04,
+                          Round == "INNER_R5" ~ Role_05,
+                          Round == "INNER_R6" ~ Role_06)) %>%
+  select(Initials, Role, Exc_round, Round, Result) %>% 
+  group_by(Initials, Role) %>% 
+  summarize(mean_motivation = mean(Result), .groups = "keep")
+
+motivation_by_role %>% group_by(Role) %>% summarize(mean(mean_motivation))
+
+
+motivation_by_role %$% aov(mean_motivation ~ Role) %>% summary
+
+
+
+#############################################
 # 1. Najít protikladné dynamiky u jedince v režimu Solo vs Team, tzn. tvar písmene M vs W (Excel)
 
+
+#############################################
 # 2. Prověřit dynamiku, tzn. identifikovat zda některé typy os. měli stále rostoucí trend v motivaci (příp. stále klesající)
 # - katj00
 
 
+#############################################
 # 3. Vytvořit clustery z B5 - a regresi dělat vůči nim a ne vůči izolovaným dimenzím B5
 
+#############################################
 # 4. Vyzkoušet Top-Down = hledání obecných vztahů
 
+#############################################
 # 5. Bottom-Up = zbavíme se noise.
 
+#############################################
 # 6. Identifikovat skokany mezi outer-rounds (vnějšími koly).
 
+#############################################
 # 7. Zohlednit Pilot vs Navigator podle osobnosti
 # - kovj19
 
+#############################################
 # 8. Udělat šest chlívečků: která role koho baví nejvíc 
 # (Max-Pilot, Max-Solo, Max-Nav), (Min-Pilot, Min-Solo, Min-Nav)
 # tak jeho B5 dát do toho chlívečku. A pak zanalyzovat shluky těchto B5.
 # Tzn. že těch cca 50 lidí x2 (jejich nejoblíbenější a nejmíň oblíbená) dáme do 6 chlívečků
 
+#############################################
 # 9. Udělat rozhodovací strom a natrénovat ho.
 
 
+#############################################
 # poznámka: první a poslední vnitřní kola mohou být specifická - zvážit jejich odstranění, příp. soustředění se pouze na ně. 
 
+
+
+
+
+#############################################
 # GENERUJEME NOVÝ EXCEL
 
 openxlsx::write.xlsx(x = Stats, file = "Stats-Enhanced.xlsx")
 
 
+#############################################
+# iné úlohy, mimo misu
 library(sqldf)
 data_connected = sqldf("SELECT x1.SUM_EX,
                                 x2.SUM_EX,

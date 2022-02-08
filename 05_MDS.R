@@ -93,7 +93,7 @@ retRole = function(data,cols,max_min = "max"){
 
 pref=personality[,c("Initials","B5_O","B5_C","B5_E","B5_A","B5_N","SS_Exp_seek",
                     "SS_Boredom_susc","SS_Thrill_adv","SS_Disinhib")]
-
+ 
 pref$X1 = fit$points[,1]
 pref$X2 = fit$points[,2]
 

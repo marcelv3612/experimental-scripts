@@ -106,12 +106,12 @@ ggplot(vsd, aes(x = RoleChange, fill = Stat)) +
 
 
 
-
+# treba najskor spustiť v 06_... radek 34
 dt=personality[,c("Initials","B5_O","B5_C","B5_E","B5_A","B5_N")] %>% data.frame
 
 rownames(dt) <- dt$Initials
 # clustering
-clusters = hclust(dist(dt %>% select(-Initials)),method = "ward.D2")
+clusters = hclust(dist(dt %>% select(-Initials)))
 # chart
 plot(clusters, xlab = "")
 
@@ -121,6 +121,7 @@ outhc = data.frame(HD)
 
 outhc$Initials = rownames(outhc)
 
+# najskor spustit 06_... riadky 81-92
 outhc %<>% inner_join(pref)
 
 outhc 
@@ -142,6 +143,30 @@ outhc %>% group_by(HD) %>% summarize(mean(B5_O),
                                      sd(B5_N)) %>% 
   data.frame
 
-outhc %>% filter(Initials %in% c("haum04","syta00",""))
+
+aa = person_res %>% select(max_mot_Pilot,max_mot_Solo,max_mot_Navigator) %>% data.frame
 
 
+fa2 = factanal(outhc %>% select(B5_O,B5_C,B5_E,B5_A,B5_N),factors = 2, scores = "regression")
+
+colors <- c("blue", "red", "black")
+colors <- colors[as.numeric(outhc[,"HD"])]
+plot(fa2$scores, col = colors, pch = 2)
+
+write.csv(outhc %>% select(Initials,B5_O,B5_C,B5_E,B5_A,B5_N),"fa.csv")
+
+fao = read.csv("fao.csv", sep = "\t")
+
+
+library(scatterplot3d)
+
+  shapes = c(16, 17, 18) 
+  shapes <- shapes[as.numeric(outhc[,"HD"])]
+  scatterplot3d(fao[,1:3], pch = shapes)
+  
+  colors <- c("#999999", "#E69F00", "#56B4E9")
+  colors <- colors[as.numeric(outhc[,"HD"])]
+  scatterplot3d(fao[,1:3], pch = 16, color=colors, angle = 70, type="h")
+  
+  
+  

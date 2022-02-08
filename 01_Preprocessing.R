@@ -42,6 +42,7 @@ colnames(data) = c('ID', 'Start_time', 'Completion_time', 'Email','Name',
                    'Ps_results_flag', 'Initials'
 )
 
+# úprava - bolo zle označená rola
 data$"08_Role"[data$"08_Role"=="Disagree a little"] = "Neither agree nor disagree"
 
 

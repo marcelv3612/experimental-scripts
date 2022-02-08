@@ -36,6 +36,16 @@ motivation_by_role %>% group_by(Role) %>%
   as.data.frame
 motivation_by_role %$% aov(mean_motivation ~ Role) %>% summary
 
+motivation_by_role %$% kruskal.test(mean_motivation ~ Role)
+
+
+
+ggplot(motivation_by_role, aes(x = mean_motivation)) + geom_histogram()
+
+ks.test(motivation_by_role$mean_motivation, "pnorm")
+
+shapiro.test(motivation_by_role$mean_motivation)
+
 #
 ordered_results <- Stats %>% 
   as_tibble %>%

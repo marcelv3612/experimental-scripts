@@ -49,7 +49,7 @@ mot_by_role <- Stats %>% as_tibble %>%
             rng_mot = max(Result, na.rm = T) - min(Result, na.rm = T),
             .groups = "keep") %>% 
   mutate(Role = factor(Role))
-
+ 
 # personal results, remove personality 
 person_res <- mot_by_role %>% 
   pivot_wider(names_from = "Role",

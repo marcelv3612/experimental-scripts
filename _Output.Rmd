@@ -23,7 +23,7 @@ lapply(list.of.packages, require, character.only = TRUE)
 ```
 
 ## Preprocessing steps
-
+ 
 There are some steps to preprocess the data.
 
 * Due to duplicate column names all names are changed for processing purposes.

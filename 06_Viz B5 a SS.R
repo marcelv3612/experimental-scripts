@@ -29,7 +29,7 @@ Stats <- subset(Stats,!(Student_ID %in% c("6f1c1fea47a3b121012af306c5824c02")
                         & Exc_round  == 2)) #
 Stats <- subset(Stats,!(Student_ID %in% c("9547de7153ef46ae8a67d6548b3c2e25")))
 
-
+ 
 # personality
 personality <- Stats %>% 
   group_by(Initials) %>% 
