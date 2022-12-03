@@ -120,7 +120,7 @@ clusters = hclust(dist(dt %>% select(-Initials)))
 # chart
 plot(clusters, xlab = "")
 
-HD <- cutree(clusters,3)
+HD <- cutree(clusters,5)
 
 outhc = data.frame(HD) 
 
@@ -181,11 +181,6 @@ outhc %<>% inner_join(pref)
 
 outhc 
 
-outhc[outhc$Initials == "haum04","max_mean"] = "Pil" # multiple nastavené na správne
-outhc[outhc$Initials == "matj27","max_mean"] = "Solo" # multiple nastavené na správne
-
-outhc %$% table(HD,max_mean)
-
 outhc %>% group_by(HD) %>% summarize(mean(B5_O), 
                                      sd(B5_O), 
                                      mean(B5_C), 
@@ -198,7 +193,7 @@ outhc %>% group_by(HD) %>% summarize(mean(B5_O),
                                      sd(B5_N)) %>% 
   data.frame
 
-
+outhc %$% table(HD,max_mean)
 
 
 #### Do not execute - following is further, unpublished analysis.
@@ -227,4 +222,7 @@ library(scatterplot3d)
   scatterplot3d(fao[,1:3], pch = 16, color=colors, angle = 70, type="h")
   
   
+  
+  outhc[outhc$Initials == "haum04","max_mean"] = "Pil" # multiple nastavené na správne
+  outhc[outhc$Initials == "matj27","max_mean"] = "Solo" # multiple nastavené na správne
   

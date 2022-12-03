@@ -7,7 +7,8 @@ lapply(list.of.packages, require, character.only = TRUE)
 rm(list = c("list.of.packages","new.packages"))
 
 # read xlsx data if it does not exist yet
-if (!exists("Stats")) Stats <- openxlsx::read.xlsx("Stats.xlsx", sheet = "Sheet 1")
+#if (!exists("Stats")) 
+  Stats <- openxlsx::read.xlsx("Stats.xlsx", sheet = "Sheet 1")
 
 # nechceme mať neceločíslené hodnoty
 last_PS <- Stats %>% group_by(Initials) %>% summarize(MER = max(Exc_round))
@@ -28,17 +29,30 @@ clusters = hclust(dist(clust_data), method = "ward.D2")
 # chart
 plot(clusters, xlab = "")
 # cut
-abline(h=13, col = "blue")
+abline(h=11, col = "blue")
 
-# split(cut) the tree into three groups
-HC_BS_3 <- cutree(clusters,3)
+# split(cut) the tree into four groups
+HC_BS_4 <- cutree(clusters,4)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# do not execute
+rm(list = c("clusters","clust_data","last_PS", "HC_BS_3","HC_BS_SS_2","HC_BS_SS_4"))
 
 # Filtering out wrong motivational data
 Stats <- subset(Stats,!(Student_ID %in% c("1ac81dbe09bf3f0f3eac3d67ebc7c53e") & Exc_round  == 1)) #
 Stats <- subset(Stats,!(Student_ID %in% c("6f1c1fea47a3b121012af306c5824c02") & Exc_round  == 2)) #
 Stats <- subset(Stats,!(Student_ID %in% c("9547de7153ef46ae8a67d6548b3c2e25"))) # hasp00
-
-# do not execute
-rm(list = c("clusters","clust_data","last_PS", "HC_BS_3","HC_BS_SS_2","HC_BS_SS_4"))
-
 

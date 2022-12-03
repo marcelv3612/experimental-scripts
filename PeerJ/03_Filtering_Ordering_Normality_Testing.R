@@ -7,7 +7,8 @@ lapply(list.of.packages, require, character.only = TRUE)
 rm(list = c("list.of.packages","new.packages"))
 
 # read xlsx data if it does not exist yet
-if (!exists("Stats")) Stats <- openxlsx::read.xlsx("Stats.xlsx", sheet = "Sheet 1")
+#if (!exists("Stats"))
+Stats <- openxlsx::read.xlsx("Stats.xlsx", sheet = "Sheet 1")
 
 # students with average(for exercises) motivation by role
 motivation_by_role <- Stats %>% as_tibble %>%
@@ -53,6 +54,11 @@ ordered_results <- Stats %>%
                           Round == "INNER_R6" ~ Role_06))%>%
   select(Initials, Role, Exc_round, Round, Result) %>% 
   arrange(Initials,Role) 
+
+
+
+
+
 
 
 #### Do not execute - following is further, unpublished analysis.

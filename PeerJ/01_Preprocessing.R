@@ -21,8 +21,6 @@ colnames(data) = c('ID', 'Start_time', 'Completion_time', 'Email','Name',
                    'Consent_read', 'Experience_yrs', 'Gender',
                    '01_01', '01_02', '01_03', '01_04', '01_05',
                    '01_06', '01_07', '01_08', '01_09', '01_10',
-                   '02_01', '02_02', '02_03', '02_04', '02_05',
-                   '02_06', '02_07', '02_08',
                    '03_01', '03_02', '03_03', '03_04', '03_05', 
                    '03_06', '03_07', '03_Role',
                    '04_01', '04_02', '04_03', '04_04', '04_05',
@@ -38,11 +36,8 @@ colnames(data) = c('ID', 'Start_time', 'Completion_time', 'Email','Name',
                    'Ps_results_flag', 'Initials'
 )
 
-# Replace wrong role
-data$"08_Role"[data$"08_Role"=="Disagree a little"] = "Neither agree nor disagree"
-
 # factorize values by changing it to numbers
-for (i in 9:74){
+for (i in 9:66){
   data[,i] = factor(data[,i], levels = c("Disagree strongly","Disagree a little",
                                           "Neither agree nor disagree",
                                           "Agree a little","Agree strongly"))
@@ -53,13 +48,6 @@ for (i in 9:74){
     levels(data[,i]) = c('Pilot','Y','Solo','X','Navigator')
   }
 }
-
-# replace wrong initials values
-data$Initials[7] = "vasv08"
-data$Initials[38] = "krod04"
-data$Initials[25] = data$Initials[64] = "hasp00"
-data$Initials[27] = data$Initials[66] = "wald03"
-data$Initials[30] = "prod13"
 
 # remove prefixes from initials
 for (i in 1:length(data$Initials)) {
@@ -74,8 +62,8 @@ data$Initials = tolower(data$Initials)
 data$Student_ID <- md5(data$Initials)
 
 # new variable of round of experiment based on start time
-data$Exc_round = ceiling((data$Start_time -  44505)/7)
-data$Exc_round = ifelse(data$Exc_round == 6, 3, data$Exc_round)
+data$Exc_round = ceiling((data$Start_time -  44652)/7)
+data$Exc_round = ifelse(data$Exc_round == 7, 3, data$Exc_round)
 
 attach(data)
 Stats = data.frame(Start_time = Start_time,
@@ -93,11 +81,6 @@ Stats = data.frame(Start_time = Start_time,
                     B5_A = `01_02` + (6 - `01_07`),
                     B5_N = (6 - `01_04`) + `01_09`,
                     
-                    SS_Exp_seek = `02_01` + `02_05`,
-                    SS_Boredom_susc = `02_02` + `02_06`,
-                    SS_Thrill_adv = `02_03` + `02_07`,
-                    SS_Disinhib = `02_04` + `02_08`,
-                    
                     INNER_R1 =`03_01`+`03_02`+`03_03`+`03_04`+`03_05`+`03_06`+`03_07`,
                     INNER_R2 =`04_01`+`04_02`+`04_03`+`04_04`+`04_05`+`04_06`+`04_07`,
                     INNER_R3 =`05_01`+`05_02`+`05_03`+`05_04`+`05_05`+`05_06`+`05_07`,
@@ -109,9 +92,6 @@ Stats = data.frame(Start_time = Start_time,
                     Role_04 = `06_Role`, Role_05 = `07_Role`, Role_06 = `08_Role`)
 detach(data)
 
-# Replace wrong role
-Stats[Stats$Initials == "korn02" & Stats$Exc_round == 3, "Role_05"] <- "Pilot"
-
 rm(list = c("data","i","len"))
 
 write.xlsx(subset(Stats,select = -c(Start_time, Completion_time, Gender, 
@@ -119,3 +99,17 @@ write.xlsx(subset(Stats,select = -c(Start_time, Completion_time, Gender,
            file = "Stats.xlsx", colNames = TRUE, overwrite = TRUE)
 
 
+
+
+# Do not execute
+# replace wrong initials values
+data$Initials[7] = "vasv08"
+data$Initials[38] = "krod04"
+data$Initials[25] = data$Initials[64] = "hasp00"
+data$Initials[27] = data$Initials[66] = "wald03"
+data$Initials[30] = "prod13"
+
+# Replace wrong role
+data$"08_Role"[data$"08_Role"=="Disagree a little"] = "Neither agree nor disagree"
+# Replace wrong role
+Stats[Stats$Initials == "korn02" & Stats$Exc_round == 3, "Role_05"] <- "Pilot"
