@@ -1,4 +1,4 @@
-
+#### Do not execute - following is further, unpublished analysis.
 
 # Dependencies
 list.of.packages <- c("openxlsx","magrittr","tidyverse")

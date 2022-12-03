@@ -8,12 +8,8 @@ if(length(new.packages)) install.packages(new.packages)
 lapply(list.of.packages, require, character.only = TRUE)
 rm(list = c("list.of.packages","new.packages"))
 
-
-
-
 ## read data
 data = read.xlsx("Experiment.xlsx", sheet = "Sheet1")
-
 
 ## basic data info
 # summary(data)
@@ -42,9 +38,8 @@ colnames(data) = c('ID', 'Start_time', 'Completion_time', 'Email','Name',
                    'Ps_results_flag', 'Initials'
 )
 
-# úprava - bolo zle označená rola
+# Replace wrong role
 data$"08_Role"[data$"08_Role"=="Disagree a little"] = "Neither agree nor disagree"
-
 
 # factorize values by changing it to numbers
 for (i in 9:74){
@@ -74,7 +69,6 @@ for (i in 1:length(data$Initials)) {
 
 # to lower case
 data$Initials = tolower(data$Initials)
-
 
 # hash Initials
 data$Student_ID <- md5(data$Initials)
@@ -115,6 +109,7 @@ Stats = data.frame(Start_time = Start_time,
                     Role_04 = `06_Role`, Role_05 = `07_Role`, Role_06 = `08_Role`)
 detach(data)
 
+# Replace wrong role
 Stats[Stats$Initials == "korn02" & Stats$Exc_round == 3, "Role_05"] <- "Pilot"
 
 rm(list = c("data","i","len"))

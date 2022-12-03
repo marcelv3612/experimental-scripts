@@ -1,5 +1,5 @@
 
-# treba najskor spustiť 07_... riadok 110
+# First the file 07 must be ran
 outhc %>% filter(max_mean == "Pil") %>% select(B5_O)
 
 t.test(outhc %>% filter(HD == 1) %>% select(B5_O),
