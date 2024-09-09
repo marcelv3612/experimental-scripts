@@ -6,15 +6,17 @@ t.test(outhc %>% filter(HD == 1) %>% select(B5_O),
        mu = as.numeric(outhc  %>% summarize(mean = mean(B5_O))),
        alternative = "greater") 
 
-
-t.test(outhc %>% filter(HD == 2) %>% select(B5_E),
-       mu = as.numeric(outhc  %>% summarize(mean = mean(B5_E))),
+t.test(outhc %>% filter(HD == 2) %>% select(B5_N),
+       mu = as.numeric(outhc  %>% summarize(mean = mean(B5_N))),
        alternative = "greater") 
 
 t.test(outhc %>% filter(HD == 2) %>% select(B5_A),
        mu = as.numeric(outhc  %>% summarize(mean = mean(B5_A))),
        alternative = "greater") 
 
+t.test(outhc %>% filter(HD == 3) %>% select(B5_A),
+       mu = as.numeric(outhc  %>% summarize(mean = mean(B5_A))),
+       alternative = "greater") 
 
 t.test(outhc %>% filter(HD == 3) %>% select(B5_E),
        mu = as.numeric(outhc  %>% summarize(mean = mean(B5_E))),
@@ -24,6 +26,31 @@ t.test(outhc %>% filter(HD == 3) %>% select(B5_N),
        mu = as.numeric(outhc  %>% summarize(mean = mean(B5_N))),
        alternative = "greater") 
 
+t.test(outhc %>% filter(HD == 4) %>% select(B5_O),
+       mu = as.numeric(outhc  %>% summarize(mean = mean(B5_O))),
+       alternative = "greater") 
+
+t.test(outhc %>% filter(HD == 4) %>% select(B5_C),
+       mu = as.numeric(outhc  %>% summarize(mean = mean(B5_C))),
+       alternative = "greater") 
+
+t.test(outhc %>% filter(HD == 5) %>% select(B5_N),
+       mu = as.numeric(outhc  %>% summarize(mean = mean(B5_N))),
+       alternative = "greater") 
+
+t.test(outhc %>% filter(HD == 5) %>% select(B5_E),
+       mu = as.numeric(outhc  %>% summarize(mean = mean(B5_E))),
+       alternative = "less") 
+
+t.test(outhc %>% filter(HD == 5) %>% select(B5_A),
+       mu = as.numeric(outhc  %>% summarize(mean = mean(B5_A))),
+       alternative = "less") 
+
+shapiro.test(as.numeric(outhc[,"B5_O"]))
+shapiro.test(as.numeric(outhc[,"B5_C"]))
+shapiro.test(as.numeric(outhc[,"B5_E"]))
+shapiro.test(as.numeric(outhc[,"B5_A"]))
+shapiro.test(as.numeric(outhc[,"B5_N"]))
 
 
 
@@ -69,11 +96,4 @@ ggplot(outhc, aes(x= B5_C)) + geom_histogram(bins = 8)
 ggplot(outhc, aes(x= B5_E)) + geom_histogram(bins = 8)
 ggplot(outhc, aes(x= B5_A)) + geom_histogram(bins = 8)
 ggplot(outhc, aes(x= B5_N)) + geom_histogram(bins = 8)
-
-shapiro.test(as.numeric(outhc[,"B5_O"]))
-shapiro.test(as.numeric(outhc[,"B5_C"]))
-shapiro.test(as.numeric(outhc[,"B5_E"]))
-shapiro.test(as.numeric(outhc[,"B5_A"]))
-shapiro.test(as.numeric(outhc[,"B5_N"]))
-
 

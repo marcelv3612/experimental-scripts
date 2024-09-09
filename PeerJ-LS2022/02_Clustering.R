@@ -10,7 +10,7 @@ rm(list = c("list.of.packages","new.packages"))
 #if (!exists("Stats")) 
   Stats <- openxlsx::read.xlsx("Stats.xlsx", sheet = "Sheet 1")
 
-# nechceme mať neceločíslené hodnoty
+# We do not want non-integer values
 last_PS <- Stats %>% group_by(Initials) %>% summarize(MER = max(Exc_round))
 
 # for both clustering options (w/wo SS) Ward's method gives more clear cluster split
@@ -32,7 +32,7 @@ plot(clusters, xlab = "")
 abline(h=11, col = "blue")
 
 # split(cut) the tree into four groups
-HC_BS_4 <- cutree(clusters,4)
+HC_BS_5<- cutree(clusters,5)
 
 
 

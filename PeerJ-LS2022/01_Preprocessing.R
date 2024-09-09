@@ -113,3 +113,18 @@ data$Initials[30] = "prod13"
 data$"08_Role"[data$"08_Role"=="Disagree a little"] = "Neither agree nor disagree"
 # Replace wrong role
 Stats[Stats$Initials == "korn02" & Stats$Exc_round == 3, "Role_05"] <- "Pilot"
+
+data$Gender
+sum(data$Gender == "Male")
+sum(data$Gender == "Female")
+c <- data$Experience_yrs
+
+mean(c <- data$Experience_yrs, TRUE)
+data$Experience_yrs
+
+df <- data.frame()
+c
+v <- as.vector(c, "numeric")
+v
+mean(v)
+sd(v)
