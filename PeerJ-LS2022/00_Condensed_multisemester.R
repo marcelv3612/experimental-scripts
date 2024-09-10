@@ -1,4 +1,4 @@
-# PeerJ - LS2022
+# PeerJ - LS2022 + ZS2021
 
 # Install required packages (only if not installed)
 required_packages <- c("openxlsx", "openssl", "magrittr", "dplyr", "ggplot2", "tidyr")
@@ -10,7 +10,8 @@ lapply(required_packages, require, character.only = TRUE)
 
 ##### File 1 - Data Preprocessing #####
 # Read data
-data <- read.xlsx("Experiment-PeerJ-LS2022.xlsx", sheet = "Sheet1")
+data <- read.xlsx("Experiment-PeerJ+CIMPS.xlsx", sheet = "Sheet1")
+#data <- read.xlsx("Experiment-PeerJ-LS2022.xlsx", sheet = "Sheet1")
 
 # Rename columns for readability
 colnames(data) <- c('ID', 'Start_time', 'Completion_time', 'Email', 'Name',
@@ -106,7 +107,7 @@ Stats <- data.frame(
 write.xlsx(Stats, file = "Stats_cleaned.xlsx", colNames = TRUE, overwrite = TRUE)
 
 
-##### File 2 - Data Analysis and Visualization #####
+##### File 2 - Data Analysis and Visualization - Motivation by Role #####
 
 # Load cleaned data
 Stats <- openxlsx::read.xlsx("Stats_cleaned.xlsx")
@@ -140,11 +141,6 @@ ggplot(motivation_by_role, aes(x = mean_motivation)) +
   theme_minimal()
 
 ##### File 3 - Clustering and Hierarchical Clustering #####
-
-# Instead of averaging, select the last session for each participant
-last_session_data <- Stats %>%
-  group_by(Initials) %>%
-  filter(Exc_round == max(Exc_round))  # Select only the last session
 
 # Clustering based on Big Five personality traits, averaging across sessions
 clust_data <- Stats %>%
@@ -245,3 +241,4 @@ print(cluster_stats)
 # Step 5: Perform the chi-squared test
 chi_squared_test <- chisq.test(contingency_table)
 print(chi_squared_test)
+

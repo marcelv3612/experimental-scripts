@@ -1,4 +1,4 @@
-# PeerJ - LS2022
+# PeerJ - ZS2021 (CIMPS) + LS2022 (PeerJ) + ZS2022 (EASE - unpublished quantitative set)
 
 # Install required packages (only if not installed)
 required_packages <- c("openxlsx", "openssl", "magrittr", "dplyr", "ggplot2", "tidyr")
@@ -10,7 +10,9 @@ lapply(required_packages, require, character.only = TRUE)
 
 ##### File 1 - Data Preprocessing #####
 # Read data
-data <- read.xlsx("Experiment-PeerJ-LS2022.xlsx", sheet = "Sheet1")
+data <- read.xlsx("Experiment-ZS2022-EASE.xlsx", sheet = "Sheet1")
+# data <- read.xlsx("Experiment-PeerJ+CIMPS+EASE.xlsx", sheet = "Sheet1")
+
 
 # Rename columns for readability
 colnames(data) <- c('ID', 'Start_time', 'Completion_time', 'Email', 'Name',
@@ -57,8 +59,6 @@ role_columns <- c('03_Role', '04_Role', '05_Role', '06_Role', '07_Role', '08_Rol
 data[role_columns] <- lapply(data[role_columns], function(x) {
   factor(role_mapping(x), levels = c("Pilot", "Solo", "Navigator"))
 })
-
-str(data)
 
 # Convert to numeric
 data[9:66] <- lapply(data[9:66], as.numeric)
@@ -111,40 +111,7 @@ write.xlsx(Stats, file = "Stats_cleaned.xlsx", colNames = TRUE, overwrite = TRUE
 # Load cleaned data
 Stats <- openxlsx::read.xlsx("Stats_cleaned.xlsx")
 
-# Group by initials and round to get motivation by role
-motivation_by_role <- Stats %>%
-  pivot_longer(cols = starts_with("INNER_R"), names_to = "Round", values_to = "Result") %>%
-  mutate(Role = case_when(
-    Round == "INNER_R1" ~ Role_01,
-    Round == "INNER_R2" ~ Role_02,
-    Round == "INNER_R3" ~ Role_03,
-    Round == "INNER_R4" ~ Role_04,
-    Round == "INNER_R5" ~ Role_05,
-    Round == "INNER_R6" ~ Role_06
-  )) %>%
-  group_by(Initials, Role) %>%
-  summarize(mean_motivation = mean(Result, na.rm = TRUE), .groups = "drop")
-
-# Perform ANOVA to check differences in motivation by role
-anova_results <- aov(mean_motivation ~ Role, data = motivation_by_role)
-summary(anova_results)
-
-# Perform Kruskal-Wallis test
-kruskal_results <- kruskal.test(mean_motivation ~ Role, data = motivation_by_role)
-kruskal_results
-
-# Visualization: Motivation histogram by role
-ggplot(motivation_by_role, aes(x = mean_motivation)) + 
-  geom_histogram(binwidth = 0.5, fill = "blue", color = "black") + 
-  facet_wrap(~ Role) +
-  theme_minimal()
-
-##### File 3 - Clustering and Hierarchical Clustering #####
-
-# Instead of averaging, select the last session for each participant
-last_session_data <- Stats %>%
-  group_by(Initials) %>%
-  filter(Exc_round == max(Exc_round))  # Select only the last session
+##### File 3 - K-Means Clustering #####
 
 # Clustering based on Big Five personality traits, averaging across sessions
 clust_data <- Stats %>%
@@ -158,55 +125,33 @@ clust_data <- Stats %>%
   ) %>%
   distinct()  # Ensure no duplicates after summarizing
 
-# Perform hierarchical clustering
-clusters <- hclust(dist(select(clust_data, -Initials)), method = "ward.D2")
-
-# Plot clustering results
-plot(clusters, xlab = "Participants", main = "Hierarchical Clustering")
-
-# Cut tree into 5 groups
-cluster_groups <- cutree(clusters, 5)
-
-# Add clustering results as a new column to clust_data
-clust_data$Cluster <- cluster_groups
-
-# Create a data frame with clustering groups and save results
-write.xlsx(clust_data, file = "Clustering_Results.xlsx", colNames = TRUE, overwrite = TRUE)
-
 ##### File 4 - Reporting on Clusters #####
 
-# Ensure that Initials are lowercase and trimmed of whitespaces in both datasets
-Stats$Initials <- tolower(trimws(Stats$Initials))
-clust_data$Initials <- tolower(trimws(clust_data$Initials))
+# Apply K-Means clustering with 5 clusters
+set.seed(123)  # Setting seed for reproducibility
+kmeans_clusters <- kmeans(select(clust_data, -Initials), centers = 5)  # Adjust 'centers' as needed
 
-# Add Cluster column to Stats by joining with clust_data (containing Cluster assignments)
-Stats_clustered <- Stats %>%
-  left_join(clust_data %>% select(Initials, Cluster), by = "Initials")  # Add Cluster to Stats
+# Add clustering results to clust_data
+clust_data$Cluster <- kmeans_clusters$cluster
 
-# Verify that the Big Five traits and Cluster column are present
-str(Stats_clustered)
+# Save clustering results to file
+write.xlsx(clust_data, file = "Clustering_Results_KMeans.xlsx", colNames = TRUE, overwrite = TRUE)
 
-# Group by the Cluster and calculate statistics for each Big Five trait
-cluster_stats <- Stats_clustered %>%
-  group_by(Cluster) %>%
-  summarize(
-    mean_B5_O = mean(B5_O, na.rm = TRUE),
-    sd_B5_O = sd(B5_O, na.rm = TRUE),
-    mean_B5_C = mean(B5_C, na.rm = TRUE),
-    sd_B5_C = sd(B5_C, na.rm = TRUE),
-    mean_B5_E = mean(B5_E, na.rm = TRUE),
-    sd_B5_E = sd(B5_E, na.rm = TRUE),
-    mean_B5_A = mean(B5_A, na.rm = TRUE),
-    sd_B5_A = sd(B5_A, na.rm = TRUE),
-    mean_B5_N = mean(B5_N, na.rm = TRUE),
-    sd_B5_N = sd(B5_N, na.rm = TRUE)
-  )
 
-# Display the summarized statistics for each cluster
-print(cluster_stats)
+# Example: Visualize the cluster assignment using ggplot
+library(ggplot2)
 
-# Optionally, save these results to a file
-write.xlsx(cluster_stats, file = "Cluster_Big_Five_Statistics.xlsx", colNames = TRUE, overwrite = TRUE)
+# Perform PCA for visualization purposes
+pca_results <- prcomp(select(clust_data, -Initials, -Cluster), center = TRUE, scale. = TRUE)
+
+# Create a data frame with the PCA results and cluster assignments
+pca_df <- data.frame(pca_results$x, Cluster = as.factor(clust_data$Cluster))
+
+# Plot the first two principal components
+ggplot(pca_df, aes(x = PC1, y = PC2, color = Cluster)) +
+  geom_point(size = 3) +
+  theme_minimal() +
+  labs(title = "K-means Clustering Visualization via PCA", x = "PC1", y = "PC2")
 
 ##### Test 1 - Contingency Table and Chi-squared
 
@@ -240,8 +185,38 @@ role_labels <- c("Pilot", "Solo", "Navigator")
 contingency_table <- table(Stats_clustered$Cluster, Stats_clustered$Preferred_Role)
 colnames(contingency_table) <- role_labels
 print(contingency_table)
-print(cluster_stats)
 
 # Step 5: Perform the chi-squared test
 chi_squared_test <- chisq.test(contingency_table)
 print(chi_squared_test)
+
+
+##### File 4 - Reporting on Clusters #####
+
+# Add Cluster column to Stats by joining with clust_data (containing Cluster assignments)
+Stats_clustered <- Stats %>%
+  left_join(clust_data %>% select(Initials, Cluster), by = "Initials")  # Merge clusters into Stats
+
+# Group by the Cluster and calculate statistics for each Big Five trait (OCEAN values)
+cluster_stats <- Stats_clustered %>%
+  group_by(Cluster) %>%
+  summarize(
+    mean_B5_O = mean(B5_O, na.rm = TRUE),
+    sd_B5_O = sd(B5_O, na.rm = TRUE),
+    mean_B5_C = mean(B5_C, na.rm = TRUE),
+    sd_B5_C = sd(B5_C, na.rm = TRUE),
+    mean_B5_E = mean(B5_E, na.rm = TRUE),
+    sd_B5_E = sd(B5_E, na.rm = TRUE),
+    mean_B5_A = mean(B5_A, na.rm = TRUE),
+    sd_B5_A = sd(B5_A, na.rm = TRUE),
+    mean_B5_N = mean(B5_N, na.rm = TRUE),
+    sd_B5_N = sd(B5_N, na.rm = TRUE)
+  )
+
+# Print the summarized statistics for each cluster (OCEAN values)
+print(cluster_stats)
+print(contingency_table)
+
+# Save these results to an Excel file for further inspection
+write.xlsx(cluster_stats, file = "Cluster_OCEAN_Statistics_KMeans.xlsx", colNames = TRUE, overwrite = TRUE)
+
