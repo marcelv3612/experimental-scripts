@@ -1,4 +1,3 @@
-# It is required to first execute files 01, 02, 03.
 
 dyn_solo <- ordered_results %>%
   filter(Role == "Solo") %>% 
@@ -61,6 +60,10 @@ ggplot(dyn, aes(x = Role, y = cnt, fill = Motivation)) +
 
 
 
+
+
+
+
 ordered_results %<>% arrange(Initials, Exc_round, Round)
 
 # Pil vs Nav results
@@ -97,21 +100,13 @@ levels(vsd$Stat) = c("Decreasing","Consistent","Increasing")
 
 ggplot(vsd, aes(x = RoleChange, fill = Stat)) +
   geom_bar(stat = "count", position=position_dodge()) +
-  xlab("") + ylab("") + ggtitle("Přechod mezi rolemi v páru") 
+  xlab("") + ylab("") + ggtitle("Prechod medzi rolami v týme") 
 
 
 
-# Same as 06_... line 34...
-personality <- Stats %>% 
-  group_by(Initials) %>% 
-  summarize(B5_O = round(mean(B5_O)),
-            B5_C = round(mean(B5_C)),
-            B5_E = round(mean(B5_E)),
-            B5_A = round(mean(B5_A)),
-            B5_N = round(mean(B5_N)),
-            ) %>% 
-  select(Initials, B5_O:B5_N)
 
+
+# treba najskor spustiť v 06_... radek 34
 dt=personality[,c("Initials","B5_O","B5_C","B5_E","B5_A","B5_N")] %>% data.frame
 
 rownames(dt) <- dt$Initials
@@ -126,57 +121,7 @@ outhc = data.frame(HD)
 
 outhc$Initials = rownames(outhc)
 
-# Same as 06_... lines 81+++
-pref=personality[,c("Initials","B5_O","B5_C","B5_E","B5_A","B5_N")]
-
-retRole = function(data,cols,max_min = "max"){
-  if(max_min == "max"){
-    val = apply(X=data[,cols], MARGIN=1, FUN=max, na.rm = T)
-  } else {
-    val = apply(X=data[,cols], MARGIN=1, FUN=min, na.rm = T)
-  }
-  role = ifelse(val==data[,cols[1]],"Nav",NA)
-  role = ifelse(!is.na(role),role,ifelse(val==data[,cols[2]],"Pil","Solo"))
-  role = ifelse(!is.na(role),role,"Solo")
-  return(as.character(role))
-}
-
-# students with average(for exercises) motivation by role
-mot_by_role <- Stats %>% as_tibble %>%
-  select(Initials, Exc_round, INNER_R1:Role_06) %>%
-  gather(Round,Result,INNER_R1:INNER_R6, factor_key=TRUE) %>%
-  mutate(Role = case_when(Round == "INNER_R1" ~ Role_01,
-                          Round == "INNER_R2" ~ Role_02,
-                          Round == "INNER_R3" ~ Role_03,
-                          Round == "INNER_R4" ~ Role_04,
-                          Round == "INNER_R5" ~ Role_05,
-                          Round == "INNER_R6" ~ Role_06)) %>%
-  select(Initials, Role, Exc_round, Round, Result) %>% 
-  group_by(Initials, Role) %>% 
-  summarize(mean_mot = mean(Result, na.rm = T),
-            min_mot = min(Result, na.rm = T),
-            max_mot = max(Result, na.rm = T),
-            rng_mot = max(Result, na.rm = T) - min(Result, na.rm = T),
-            .groups = "keep") %>% 
-  mutate(Role = factor(Role))
-
-# personal results, remove personality 
-person_res <- mot_by_role %>% 
-  pivot_wider(names_from = "Role",
-              values_from = c("mean_mot","min_mot","max_mot","rng_mot")) %>% 
-  inner_join(personality, by  = "Initials")
-
-cols = c("mean_mot_Navigator","mean_mot_Pilot","mean_mot_Solo")
-pref$max_mean = retRole(person_res,cols,"max")
-pref$min_mean = retRole(person_res,cols,"min")
-
-cols = c("max_mot_Navigator","max_mot_Pilot","max_mot_Solo")
-pref$max = retRole(person_res,cols,"max")
-cols = c("min_mot_Navigator","min_mot_Pilot","min_mot_Solo")
-pref$min = retRole(person_res,cols,"min")
-pref
-
-
+# najskor spustit 06_... riadky 81-92
 outhc %<>% inner_join(pref)
 
 outhc 
@@ -199,9 +144,6 @@ outhc %>% group_by(HD) %>% summarize(mean(B5_O),
   data.frame
 
 
-
-
-#### Do not execute - following is further, unpublished analysis.
 aa = person_res %>% select(max_mot_Pilot,max_mot_Solo,max_mot_Navigator) %>% data.frame
 
 
@@ -213,7 +155,7 @@ plot(fa2$scores, col = colors, pch = 2)
 
 write.csv(outhc %>% select(Initials,B5_O,B5_C,B5_E,B5_A,B5_N),"fa.csv")
 
-fao = read.csv("fa.csv", sep = "\t")
+fao = read.csv("fao.csv", sep = "\t")
 
 
 library(scatterplot3d)

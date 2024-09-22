@@ -1,4 +1,3 @@
-#### Do not execute - following is further, unpublished analysis.
 
 # Dependencies
 list.of.packages <- c("openxlsx","magrittr","tidyverse")
@@ -9,6 +8,14 @@ rm(list = c("list.of.packages","new.packages"))
 
 # read xlsx data if it is not loaded yet
 if (!exists("Stats")) Stats <- openxlsx::read.xlsx("Stats.xlsx", sheet = "Sheet 1")
+
+# filtrovanie a oprava chybných
+Stats <- subset(Stats,!(Student_ID %in% c("1ac81dbe09bf3f0f3eac3d67ebc7c53e") 
+                        & Exc_round  == 1)) #
+Stats <- subset(Stats,!(Student_ID %in% c("6f1c1fea47a3b121012af306c5824c02") 
+                        & Exc_round  == 2)) #
+Stats <- subset(Stats,!(Student_ID %in% c("9547de7153ef46ae8a67d6548b3c2e25")))
+
 
 # personality
 personality <- Stats %>% 
@@ -49,7 +56,7 @@ person_res <- mot_by_role %>%
               values_from = c("mean_mot","min_mot","max_mot","rng_mot")) %>% 
   inner_join(personality, by  = "Initials")
 
-rm(personality)
+#rm(personality)
 
 # exercise results
 ex_res_long <- Stats %>% 
@@ -275,3 +282,4 @@ outv <- rbind(zaujimavy_vysledok1,
 
  
 write.xlsx(outv, file = "Different.xlsx", colNames = TRUE, overwrite = TRUE)
+

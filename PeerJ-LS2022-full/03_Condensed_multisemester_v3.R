@@ -1,4 +1,4 @@
-# PeerJ - LS2022 + ZS2021
+# PeerJ - SS2022 + WS2021
 
 # Install required packages (only if not installed)
 required_packages <- c("openxlsx", "openssl", "magrittr", "dplyr", "ggplot2", "tidyr")
@@ -10,8 +10,7 @@ lapply(required_packages, require, character.only = TRUE)
 
 ##### File 1 - Data Preprocessing #####
 # Read data
-data <- read.xlsx("Experiment-PeerJ+CIMPS.xlsx", sheet = "Sheet1")
-#data <- read.xlsx("Experiment-PeerJ-LS2022.xlsx", sheet = "Sheet1")
+data <- read.xlsx("Experiment-SS2022+WS2021.xlsx", sheet = "Sheet1")
 
 # Rename columns for readability
 colnames(data) <- c('ID', 'Start_time', 'Completion_time', 'Email', 'Name',
@@ -238,7 +237,18 @@ colnames(contingency_table) <- role_labels
 print(contingency_table)
 print(cluster_stats)
 
-# Step 5: Perform the chi-squared test
-chi_squared_test <- chisq.test(contingency_table)
-print(chi_squared_test)
+# Step 5: Perform the Fisher test
+fisher_test <- fisher.test(contingency_table, simulate.p.value = TRUE)
+print(fisher_test)
 
+#Fisher's Exact Test for Count Data with simulated p-value (based on 2000 replicates)
+# data:  contingency_table
+# p-value = 0.05397
+# alternative hypothesis: two.sided
+
+chisq_test <- chisq.test(contingency_table, simulate.p.value = TRUE)
+print(chisq_test)
+
+# Pearson's Chi-squared test with simulated p-value (based on 2000 replicates)
+# data:  contingency_table
+# X-squared = 13.791, df = NA, p-value = 0.07196

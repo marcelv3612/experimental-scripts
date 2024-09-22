@@ -1,5 +1,5 @@
 
-# First the file 07 must be ran
+# treba najskor spustiť 07_... riadok 110
 outhc %>% filter(max_mean == "Pil") %>% select(B5_O)
 
 t.test(outhc %>% filter(HD == 1) %>% select(B5_O),
@@ -76,4 +76,33 @@ shapiro.test(as.numeric(outhc[,"B5_E"]))
 shapiro.test(as.numeric(outhc[,"B5_A"]))
 shapiro.test(as.numeric(outhc[,"B5_N"]))
 
+
+# Create a contingency table for Role vs Cluster assignments (HD)
+contingency_table <- table(outhc$HD, outhc$max_mean)
+contingency_table
+
+# Run Pearson's Chi-squared test
+chisq_test <- chisq.test(contingency_table)
+chisq_test
+
+#Pearson's Chi-squared test
+#data:  contingency_table
+#X-squared = 12.735, df = 4, p-value = 0.01264
+
+# Run Fisher's Exact Test
+fisher_test <- fisher.test(contingency_table)
+fisher_test
+
+#data:  contingency_table
+#p-value = 0.01937
+#alternative hypothesis: two.sided
+
+# Run Monte Carlo simulation for Chi-squared test
+chisq_test_simulation <- chisq.test(contingency_table, simulate.p.value = TRUE, B = 2000)
+chisq_test_simulation
+
+#Pearson's Chi-squared test with simulated p-value (based on 2000 replicates)
+
+#data:  contingency_table
+#X-squared = 12.735, df = NA, p-value = 0.009495
 

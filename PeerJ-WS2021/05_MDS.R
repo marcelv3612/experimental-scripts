@@ -1,5 +1,3 @@
-#### Do not execute - following is further, unpublished analysis.
-
 # MDS nerieši nič, grafy nižšie ale vyzerajú niektoré celkom zaujímavo
 # problém je, že ja nevidím celú podstatu za tým
 
