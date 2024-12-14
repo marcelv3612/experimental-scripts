@@ -1,0 +1,74 @@
+Linear mixed-effects model fit by REML
+  Data: long_data 
+       AIC      BIC    logLik
+  8472.976 8581.074 -4216.488
+
+Random effects:
+ Formula: ~1 | Student_ID
+        (Intercept) Residual
+StdDev:    2.282231 2.838732
+
+Fixed effects:  IntrinsicMotivation ~ Role * (B5_O + B5_C + B5_E + B5_A + B5_N) 
+                       Value Std.Error   DF   t-value p-value
+(Intercept)        18.320069 2.1104111 1549  8.680806  0.0000
+RoleSolo           -3.342546 1.5012195 1549 -2.226553  0.0261
+RoleNavigator       0.281766 1.4192863 1549  0.198526  0.8427
+B5_O                0.013509 0.3055544   95  0.044211  0.9648
+B5_C                0.454742 0.3528292   95  1.288844  0.2006
+B5_E                0.583846 0.3118054   95  1.872469  0.0642
+B5_A                0.123064 0.3498157   95  0.351798  0.7258
+B5_N               -0.482079 0.2654768   95 -1.815897  0.0725
+RoleSolo:B5_O      -0.055141 0.2149161 1549 -0.256570  0.7975
+RoleNavigator:B5_O -0.320297 0.2121396 1549 -1.509843  0.1313
+RoleSolo:B5_C       0.135946 0.2445876 1549  0.555816  0.5784
+RoleNavigator:B5_C -0.269159 0.2398548 1549 -1.122177  0.2620
+RoleSolo:B5_E       0.014677 0.2245934 1549  0.065348  0.9479
+RoleNavigator:B5_E -0.030244 0.2175500 1549 -0.139023  0.8895
+RoleSolo:B5_A      -0.322693 0.2453106 1549 -1.315445  0.1886
+RoleNavigator:B5_A  0.104325 0.2379862 1549  0.438367  0.6612
+RoleSolo:B5_N       0.841997 0.1836045 1549  4.585926  0.0000
+RoleNavigator:B5_N  0.311891 0.1750472 1549  1.781753  0.0750
+ Correlation: 
+                   (Intr) RoleSl RlNvgt B5_O   B5_C   B5_E   B5_A   B5_N   RS:B5_O RN:B5_O RS:B5_C
+RoleSolo           -0.365                                                                         
+RoleNavigator      -0.339  0.473                                                                  
+B5_O               -0.389  0.125  0.135                                                           
+B5_C               -0.420  0.168  0.143 -0.214                                                    
+B5_E               -0.302  0.119  0.097 -0.140  0.011                                             
+B5_A               -0.455  0.164  0.161  0.077 -0.067 -0.226                                      
+B5_N               -0.509  0.187  0.168 -0.016  0.146  0.230 -0.047                               
+RoleSolo:B5_O       0.128 -0.370 -0.192 -0.371  0.113  0.072 -0.040  0.001                        
+RoleNavigator:B5_O  0.131 -0.184 -0.391 -0.341  0.095  0.056 -0.041 -0.004  0.494                 
+RoleSolo:B5_C       0.169 -0.422 -0.207  0.113 -0.394 -0.034  0.020 -0.066 -0.234  -0.140         
+RoleNavigator:B5_C  0.141 -0.200 -0.406  0.096 -0.351 -0.009  0.015 -0.048 -0.140  -0.277   0.510 
+RoleSolo:B5_E       0.117 -0.350 -0.129  0.073 -0.036 -0.388  0.089 -0.082 -0.119  -0.082   0.033 
+RoleNavigator:B5_E  0.093 -0.126 -0.282  0.055 -0.009 -0.357  0.095 -0.071 -0.083  -0.175   0.013 
+RoleSolo:B5_A       0.167 -0.431 -0.229 -0.038  0.017  0.090 -0.357  0.015  0.021   0.058  -0.052 
+RoleNavigator:B5_A  0.159 -0.222 -0.468 -0.041  0.014  0.097 -0.344  0.019  0.057   0.115  -0.021 
+RoleSolo:B5_N       0.193 -0.564 -0.240  0.002 -0.068 -0.088  0.015 -0.353  0.045   0.006   0.149 
+RoleNavigator:B5_N  0.171 -0.238 -0.505 -0.004 -0.049 -0.075  0.020 -0.332  0.006   0.020   0.073 
+                   RN:B5_C RS:B5_E RN:B5_E RS:B5_A RN:B5_A RS:B5_N
+RoleSolo                                                          
+RoleNavigator                                                     
+B5_O                                                              
+B5_C                                                              
+B5_E                                                              
+B5_A                                                              
+B5_N                                                              
+RoleSolo:B5_O                                                     
+RoleNavigator:B5_O                                                
+RoleSolo:B5_C                                                     
+RoleNavigator:B5_C                                                
+RoleSolo:B5_E       0.013                                         
+RoleNavigator:B5_E  0.048   0.495                                 
+RoleSolo:B5_A      -0.021  -0.216  -0.137                         
+RoleNavigator:B5_A -0.048  -0.137  -0.261   0.493                 
+RoleSolo:B5_N       0.071   0.294   0.099  -0.038  -0.031         
+RoleNavigator:B5_N  0.128   0.100   0.220  -0.031  -0.058   0.479 
+
+Standardized Within-Group Residuals:
+        Min          Q1         Med          Q3         Max 
+-3.81716931 -0.59885779  0.08155167  0.59685654  3.73405096 
+
+Number of Observations: 1662
+Number of Groups: 101 

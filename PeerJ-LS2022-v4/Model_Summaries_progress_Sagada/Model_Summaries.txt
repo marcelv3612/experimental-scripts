@@ -1,0 +1,437 @@
+
+### Missing Data Summary for Stats_SS2022_Ready.xlsx ###
+
+# A tibble: 1 × 22
+  Start_time Completion_time Experience_yrs Gender Student_ID Initials Exc_round  B5_O  B5_C  B5_E
+       <int>           <int>          <int>  <int>      <int>    <int>     <int> <int> <int> <int>
+1          0               0              0      0          0        0         0     0     0     0
+# ℹ 12 more variables: B5_A <int>, B5_N <int>, Role_01 <int>, Role_02 <int>, Role_03 <int>,
+#   Role_04 <int>, Role_05 <int>, Role_06 <int>, PersonalityCluster <int>, Round <int>,
+#   IntrinsicMotivation <int>, Role <int>
+
+### Pairwise Comparisons for Stats_SS2022_Ready.xlsx ###
+
+ contrast          estimate    SE  df t.ratio p.value
+ Pilot - Solo         1.995 0.343 423   5.818  <.0001
+ Pilot - Navigator    0.671 0.341 423   1.968  0.1213
+ Solo - Navigator    -1.324 0.344 423  -3.843  0.0004
+
+Degrees-of-freedom method: containment 
+P value adjustment: tukey method for comparing a family of 3 estimates 
+
+### Big Five x Role Interaction Effects for Stats_SS2022_Ready.xlsx ###
+
+
+### Missing Data Summary for Stats_SS2022_Ready.xlsx ###
+
+# A tibble: 1 × 22
+  Start_time Completion_time Experience_yrs Gender Student_ID Initials Exc_round  B5_O  B5_C  B5_E
+       <int>           <int>          <int>  <int>      <int>    <int>     <int> <int> <int> <int>
+1          0               0              0      0          0        0         0     0     0     0
+# ℹ 12 more variables: B5_A <int>, B5_N <int>, Role_01 <int>, Role_02 <int>, Role_03 <int>,
+#   Role_04 <int>, Role_05 <int>, Role_06 <int>, PersonalityCluster <int>, Round <int>,
+#   IntrinsicMotivation <int>, Role <int>
+
+### Pairwise Comparisons for Stats_SS2022_Ready.xlsx ###
+
+ contrast          estimate    SE  df t.ratio p.value
+ Pilot - Solo         1.995 0.343 423   5.818  <.0001
+ Pilot - Navigator    0.671 0.341 423   1.968  0.1213
+ Solo - Navigator    -1.324 0.344 423  -3.843  0.0004
+
+Degrees-of-freedom method: containment 
+P value adjustment: tukey method for comparing a family of 3 estimates 
+
+### Big Five x Role Interaction Effects for Stats_SS2022_Ready.xlsx ###
+
+$emmeans
+PersonalityCluster = Openness:
+ Role      emmean    SE df lower.CL upper.CL
+ Solo        20.1 0.587 91     18.9     21.3
+ Pilot       18.2 0.581 91     17.0     19.3
+ Navigator   18.8 0.587 91     17.6     20.0
+
+PersonalityCluster = Conscientiousness:
+ Role      emmean    SE df lower.CL upper.CL
+ Solo        19.1 1.005 91     17.1     21.1
+ Pilot       18.4 0.994 91     16.5     20.4
+ Navigator   19.5 1.000 91     17.5     21.5
+
+PersonalityCluster = Extraversion:
+ Role      emmean    SE df lower.CL upper.CL
+ Solo        20.2 0.913 91     18.4     22.0
+ Pilot       19.5 0.891 91     17.7     21.3
+ Navigator   20.2 0.906 91     18.4     22.0
+
+PersonalityCluster = Agreeableness:
+ Role      emmean    SE df lower.CL upper.CL
+ Solo        20.4 0.638 91     19.1     21.7
+ Pilot       17.3 0.633 91     16.1     18.6
+ Navigator   20.6 0.639 91     19.3     21.9
+
+PersonalityCluster = Neuroticism:
+ Role      emmean    SE df lower.CL upper.CL
+ Solo        21.4 0.765 91     19.9     22.9
+ Pilot       20.9 0.749 91     19.4     22.4
+ Navigator   20.9 0.766 91     19.4     22.4
+
+Degrees-of-freedom method: containment 
+Confidence level used: 0.95 
+
+$contrasts
+PersonalityCluster = Openness:
+ contrast          estimate    SE   df t.ratio p.value
+ Solo - Pilot        1.9218 0.306 1551   6.288  <.0001
+ Solo - Navigator    1.3160 0.293 1551   4.496  <.0001
+ Pilot - Navigator  -0.6058 0.304 1551  -1.992  0.1144
+
+PersonalityCluster = Conscientiousness:
+ contrast          estimate    SE   df t.ratio p.value
+ Solo - Pilot        0.7154 0.536 1551   1.336  0.3754
+ Solo - Navigator   -0.3452 0.532 1551  -0.649  0.7928
+ Pilot - Navigator  -1.0606 0.525 1551  -2.022  0.1073
+
+PersonalityCluster = Extraversion:
+ contrast          estimate    SE   df t.ratio p.value
+ Solo - Pilot        0.7202 0.557 1551   1.294  0.3988
+ Solo - Navigator    0.0428 0.560 1551   0.076  0.9968
+ Pilot - Navigator  -0.6774 0.548 1551  -1.236  0.4321
+
+PersonalityCluster = Agreeableness:
+ contrast          estimate    SE   df t.ratio p.value
+ Solo - Pilot        3.0944 0.378 1551   8.196  <.0001
+ Solo - Navigator   -0.1926 0.357 1551  -0.540  0.8517
+ Pilot - Navigator  -3.2870 0.378 1551  -8.696  <.0001
+
+PersonalityCluster = Neuroticism:
+ contrast          estimate    SE   df t.ratio p.value
+ Solo - Pilot        0.5143 0.401 1551   1.283  0.4052
+ Solo - Navigator    0.4537 0.414 1551   1.097  0.5163
+ Pilot - Navigator  -0.0607 0.403 1551  -0.150  0.9876
+
+Degrees-of-freedom method: containment 
+P value adjustment: tukey method for comparing a family of 3 estimates 
+
+B5_O = 3.57, B5_C = 3.01, B5_E = 2.79, B5_A = 3.26, B5_N = 2.75:
+ Role      emmean    SE df lower.CL upper.CL
+ Pilot       20.1 0.430 21     19.2     21.0
+ Solo        18.1 0.422 21     17.3     19.0
+ Navigator   19.5 0.432 21     18.6     20.4
+
+Degrees-of-freedom method: containment 
+Confidence level used: 0.95 
+
+### Missing Data Summary for Stats_WS2021+SS2022_Ready.xlsx ###
+
+# A tibble: 1 × 22
+  Start_time Completion_time Experience_yrs Gender Student_ID Initials Exc_round  B5_O  B5_C  B5_E
+       <int>           <int>          <int>  <int>      <int>    <int>     <int> <int> <int> <int>
+1          0               0              0      0          0        0         0     0     0     0
+# ℹ 12 more variables: B5_A <int>, B5_N <int>, Role_01 <int>, Role_02 <int>, Role_03 <int>,
+#   Role_04 <int>, Role_05 <int>, Role_06 <int>, PersonalityCluster <int>, Round <int>,
+#   IntrinsicMotivation <int>, Role <int>
+
+### Pairwise Comparisons for Stats_WS2021+SS2022_Ready.xlsx ###
+
+ contrast          estimate    SE   df t.ratio p.value
+ Pilot - Solo         1.604 0.218 1014   7.360  <.0001
+ Pilot - Navigator    0.562 0.224 1014   2.509  0.0328
+ Solo - Navigator    -1.042 0.218 1014  -4.779  <.0001
+
+Degrees-of-freedom method: containment 
+P value adjustment: tukey method for comparing a family of 3 estimates 
+
+### Big Five x Role Interaction Effects for Stats_WS2021+SS2022_Ready.xlsx ###
+
+$emmeans
+PersonalityCluster = Openness:
+ Role      emmean    SE df lower.CL upper.CL
+ Solo        20.1 0.587 91     18.9     21.3
+ Pilot       18.2 0.581 91     17.0     19.3
+ Navigator   18.8 0.587 91     17.6     20.0
+
+PersonalityCluster = Conscientiousness:
+ Role      emmean    SE df lower.CL upper.CL
+ Solo        19.1 1.005 91     17.1     21.1
+ Pilot       18.4 0.994 91     16.5     20.4
+ Navigator   19.5 1.000 91     17.5     21.5
+
+PersonalityCluster = Extraversion:
+ Role      emmean    SE df lower.CL upper.CL
+ Solo        20.2 0.913 91     18.4     22.0
+ Pilot       19.5 0.891 91     17.7     21.3
+ Navigator   20.2 0.906 91     18.4     22.0
+
+PersonalityCluster = Agreeableness:
+ Role      emmean    SE df lower.CL upper.CL
+ Solo        20.4 0.638 91     19.1     21.7
+ Pilot       17.3 0.633 91     16.1     18.6
+ Navigator   20.6 0.639 91     19.3     21.9
+
+PersonalityCluster = Neuroticism:
+ Role      emmean    SE df lower.CL upper.CL
+ Solo        21.4 0.765 91     19.9     22.9
+ Pilot       20.9 0.749 91     19.4     22.4
+ Navigator   20.9 0.766 91     19.4     22.4
+
+Degrees-of-freedom method: containment 
+Confidence level used: 0.95 
+
+$contrasts
+PersonalityCluster = Openness:
+ contrast          estimate    SE   df t.ratio p.value
+ Solo - Pilot        1.9218 0.306 1551   6.288  <.0001
+ Solo - Navigator    1.3160 0.293 1551   4.496  <.0001
+ Pilot - Navigator  -0.6058 0.304 1551  -1.992  0.1144
+
+PersonalityCluster = Conscientiousness:
+ contrast          estimate    SE   df t.ratio p.value
+ Solo - Pilot        0.7154 0.536 1551   1.336  0.3754
+ Solo - Navigator   -0.3452 0.532 1551  -0.649  0.7928
+ Pilot - Navigator  -1.0606 0.525 1551  -2.022  0.1073
+
+PersonalityCluster = Extraversion:
+ contrast          estimate    SE   df t.ratio p.value
+ Solo - Pilot        0.7202 0.557 1551   1.294  0.3988
+ Solo - Navigator    0.0428 0.560 1551   0.076  0.9968
+ Pilot - Navigator  -0.6774 0.548 1551  -1.236  0.4321
+
+PersonalityCluster = Agreeableness:
+ contrast          estimate    SE   df t.ratio p.value
+ Solo - Pilot        3.0944 0.378 1551   8.196  <.0001
+ Solo - Navigator   -0.1926 0.357 1551  -0.540  0.8517
+ Pilot - Navigator  -3.2870 0.378 1551  -8.696  <.0001
+
+PersonalityCluster = Neuroticism:
+ contrast          estimate    SE   df t.ratio p.value
+ Solo - Pilot        0.5143 0.401 1551   1.283  0.4052
+ Solo - Navigator    0.4537 0.414 1551   1.097  0.5163
+ Pilot - Navigator  -0.0607 0.403 1551  -0.150  0.9876
+
+Degrees-of-freedom method: containment 
+P value adjustment: tukey method for comparing a family of 3 estimates 
+
+B5_O = 3.54, B5_C = 3.05, B5_E = 2.84, B5_A = 3.28, B5_N = 2.95:
+ Role      emmean    SE df lower.CL upper.CL
+ Pilot       20.5 0.296 60     19.9     21.1
+ Solo        18.9 0.285 60     18.4     19.5
+ Navigator   20.0 0.297 60     19.4     20.6
+
+Degrees-of-freedom method: containment 
+Confidence level used: 0.95 
+
+### Missing Data Summary for Stats_WS2021+SS2022+WS2022_Ready.xlsx ###
+
+# A tibble: 1 × 22
+  Start_time Completion_time Experience_yrs Gender Student_ID Initials Exc_round  B5_O  B5_C  B5_E
+       <int>           <int>          <int>  <int>      <int>    <int>     <int> <int> <int> <int>
+1          0               0              0      0          0        0         0     0     0     0
+# ℹ 12 more variables: B5_A <int>, B5_N <int>, Role_01 <int>, Role_02 <int>, Role_03 <int>,
+#   Role_04 <int>, Role_05 <int>, Role_06 <int>, PersonalityCluster <int>, Round <int>,
+#   IntrinsicMotivation <int>, Role <int>
+
+### Pairwise Comparisons for Stats_WS2021+SS2022+WS2022_Ready.xlsx ###
+
+ contrast          estimate    SE   df t.ratio p.value
+ Pilot - Solo         1.639 0.182 1549   9.003  <.0001
+ Pilot - Navigator    0.474 0.178 1549   2.665  0.0212
+ Solo - Navigator    -1.165 0.181 1549  -6.424  <.0001
+
+Degrees-of-freedom method: containment 
+P value adjustment: tukey method for comparing a family of 3 estimates 
+
+### Big Five x Role Interaction Effects for Stats_WS2021+SS2022+WS2022_Ready.xlsx ###
+
+$emmeans
+PersonalityCluster = Openness:
+ Role      emmean    SE df lower.CL upper.CL
+ Solo        20.1 0.587 91     18.9     21.3
+ Pilot       18.2 0.581 91     17.0     19.3
+ Navigator   18.8 0.587 91     17.6     20.0
+
+PersonalityCluster = Conscientiousness:
+ Role      emmean    SE df lower.CL upper.CL
+ Solo        19.1 1.005 91     17.1     21.1
+ Pilot       18.4 0.994 91     16.5     20.4
+ Navigator   19.5 1.000 91     17.5     21.5
+
+PersonalityCluster = Extraversion:
+ Role      emmean    SE df lower.CL upper.CL
+ Solo        20.2 0.913 91     18.4     22.0
+ Pilot       19.5 0.891 91     17.7     21.3
+ Navigator   20.2 0.906 91     18.4     22.0
+
+PersonalityCluster = Agreeableness:
+ Role      emmean    SE df lower.CL upper.CL
+ Solo        20.4 0.638 91     19.1     21.7
+ Pilot       17.3 0.633 91     16.1     18.6
+ Navigator   20.6 0.639 91     19.3     21.9
+
+PersonalityCluster = Neuroticism:
+ Role      emmean    SE df lower.CL upper.CL
+ Solo        21.4 0.765 91     19.9     22.9
+ Pilot       20.9 0.749 91     19.4     22.4
+ Navigator   20.9 0.766 91     19.4     22.4
+
+Degrees-of-freedom method: containment 
+Confidence level used: 0.95 
+
+$contrasts
+PersonalityCluster = Openness:
+ contrast          estimate    SE   df t.ratio p.value
+ Solo - Pilot        1.9218 0.306 1551   6.288  <.0001
+ Solo - Navigator    1.3160 0.293 1551   4.496  <.0001
+ Pilot - Navigator  -0.6058 0.304 1551  -1.992  0.1144
+
+PersonalityCluster = Conscientiousness:
+ contrast          estimate    SE   df t.ratio p.value
+ Solo - Pilot        0.7154 0.536 1551   1.336  0.3754
+ Solo - Navigator   -0.3452 0.532 1551  -0.649  0.7928
+ Pilot - Navigator  -1.0606 0.525 1551  -2.022  0.1073
+
+PersonalityCluster = Extraversion:
+ contrast          estimate    SE   df t.ratio p.value
+ Solo - Pilot        0.7202 0.557 1551   1.294  0.3988
+ Solo - Navigator    0.0428 0.560 1551   0.076  0.9968
+ Pilot - Navigator  -0.6774 0.548 1551  -1.236  0.4321
+
+PersonalityCluster = Agreeableness:
+ contrast          estimate    SE   df t.ratio p.value
+ Solo - Pilot        3.0944 0.378 1551   8.196  <.0001
+ Solo - Navigator   -0.1926 0.357 1551  -0.540  0.8517
+ Pilot - Navigator  -3.2870 0.378 1551  -8.696  <.0001
+
+PersonalityCluster = Neuroticism:
+ contrast          estimate    SE   df t.ratio p.value
+ Solo - Pilot        0.5143 0.401 1551   1.283  0.4052
+ Solo - Navigator    0.4537 0.414 1551   1.097  0.5163
+ Pilot - Navigator  -0.0607 0.403 1551  -0.150  0.9876
+
+Degrees-of-freedom method: containment 
+P value adjustment: tukey method for comparing a family of 3 estimates 
+
+B5_O = 3.56, B5_C = 3.05, B5_E = 2.73, B5_A = 3.36, B5_N = 3:
+ Role      emmean    SE df lower.CL upper.CL
+ Pilot       20.3 0.262 95     19.8     20.8
+ Solo        18.7 0.258 95     18.2     19.2
+ Navigator   19.8 0.262 95     19.3     20.4
+
+Degrees-of-freedom method: containment 
+Confidence level used: 0.95 
+
+### Missing Data Summary for Stats_SS2022_Ready.xlsx ###
+
+# A tibble: 1 × 21
+  Start_time Completion_time Experience_yrs Gender Student_ID Initials Exc_round  B5_O  B5_C  B5_E
+       <int>           <int>          <int>  <int>      <int>    <int>     <int> <int> <int> <int>
+1          0               0              0      0          0        0         0     0     0     0
+# ℹ 11 more variables: B5_A <int>, B5_N <int>, Role_01 <int>, Role_02 <int>, Role_03 <int>,
+#   Role_04 <int>, Role_05 <int>, Role_06 <int>, Round <int>, IntrinsicMotivation <int>, Role <int>
+
+### Pairwise Comparisons for Stats_SS2022_Ready.xlsx with Pilot as Baseline ###
+
+ contrast          estimate    SE  df t.ratio p.value
+ Pilot - Solo          1.95 0.341 433   5.724  <.0001
+ Pilot - Navigator     0.67 0.340 433   1.973  0.1201
+ Solo - Navigator     -1.28 0.342 433  -3.737  0.0006
+
+Degrees-of-freedom method: containment 
+P value adjustment: tukey method for comparing a family of 3 estimates 
+
+### Pairwise Comparisons for Stats_SS2022_Ready.xlsx with Solo as Baseline ###
+
+ contrast          estimate    SE  df t.ratio p.value
+ Solo - Pilot         -1.95 0.341 433  -5.724  <.0001
+ Solo - Navigator     -1.28 0.342 433  -3.737  0.0006
+ Pilot - Navigator     0.67 0.340 433   1.973  0.1201
+
+Degrees-of-freedom method: containment 
+P value adjustment: tukey method for comparing a family of 3 estimates 
+
+### Pairwise Comparisons for Stats_SS2022_Ready.xlsx with Navigator as Baseline ###
+
+ contrast          estimate    SE  df t.ratio p.value
+ Navigator - Solo      1.28 0.342 433   3.737  0.0006
+ Navigator - Pilot    -0.67 0.340 433  -1.973  0.1201
+ Solo - Pilot         -1.95 0.341 433  -5.724  <.0001
+
+Degrees-of-freedom method: containment 
+P value adjustment: tukey method for comparing a family of 3 estimates 
+
+### Missing Data Summary for Stats_WS2021+SS2022_Ready.xlsx ###
+
+# A tibble: 1 × 21
+  Start_time Completion_time Experience_yrs Gender Student_ID Initials Exc_round  B5_O  B5_C  B5_E
+       <int>           <int>          <int>  <int>      <int>    <int>     <int> <int> <int> <int>
+1          0               0              0      0          0        0         0     0     0     0
+# ℹ 11 more variables: B5_A <int>, B5_N <int>, Role_01 <int>, Role_02 <int>, Role_03 <int>,
+#   Role_04 <int>, Role_05 <int>, Role_06 <int>, Round <int>, IntrinsicMotivation <int>, Role <int>
+
+### Pairwise Comparisons for Stats_WS2021+SS2022_Ready.xlsx with Pilot as Baseline ###
+
+ contrast          estimate    SE   df t.ratio p.value
+ Pilot - Solo         1.531 0.220 1024   6.962  <.0001
+ Pilot - Navigator    0.574 0.227 1024   2.534  0.0307
+ Solo - Navigator    -0.957 0.220 1024  -4.347  <.0001
+
+Degrees-of-freedom method: containment 
+P value adjustment: tukey method for comparing a family of 3 estimates 
+
+### Pairwise Comparisons for Stats_WS2021+SS2022_Ready.xlsx with Solo as Baseline ###
+
+ contrast          estimate    SE   df t.ratio p.value
+ Solo - Pilot        -1.531 0.220 1024  -6.962  <.0001
+ Solo - Navigator    -0.957 0.220 1024  -4.347  <.0001
+ Pilot - Navigator    0.574 0.227 1024   2.534  0.0307
+
+Degrees-of-freedom method: containment 
+P value adjustment: tukey method for comparing a family of 3 estimates 
+
+### Pairwise Comparisons for Stats_WS2021+SS2022_Ready.xlsx with Navigator as Baseline ###
+
+ contrast          estimate    SE   df t.ratio p.value
+ Navigator - Solo     0.957 0.220 1024   4.347  <.0001
+ Navigator - Pilot   -0.574 0.227 1024  -2.534  0.0307
+ Solo - Pilot        -1.531 0.220 1024  -6.962  <.0001
+
+Degrees-of-freedom method: containment 
+P value adjustment: tukey method for comparing a family of 3 estimates 
+
+### Missing Data Summary for Stats_WS2021+SS2022+WS2022_Ready.xlsx ###
+
+# A tibble: 1 × 21
+  Start_time Completion_time Experience_yrs Gender Student_ID Initials Exc_round  B5_O  B5_C  B5_E
+       <int>           <int>          <int>  <int>      <int>    <int>     <int> <int> <int> <int>
+1          0               0              0      0          0        0         0     0     0     0
+# ℹ 11 more variables: B5_A <int>, B5_N <int>, Role_01 <int>, Role_02 <int>, Role_03 <int>,
+#   Role_04 <int>, Role_05 <int>, Role_06 <int>, Round <int>, IntrinsicMotivation <int>, Role <int>
+
+### Pairwise Comparisons for Stats_WS2021+SS2022+WS2022_Ready.xlsx with Pilot as Baseline ###
+
+ contrast          estimate    SE   df t.ratio p.value
+ Pilot - Solo         1.622 0.183 1559   8.852  <.0001
+ Pilot - Navigator    0.483 0.179 1559   2.694  0.0195
+ Solo - Navigator    -1.139 0.182 1559  -6.243  <.0001
+
+Degrees-of-freedom method: containment 
+P value adjustment: tukey method for comparing a family of 3 estimates 
+
+### Pairwise Comparisons for Stats_WS2021+SS2022+WS2022_Ready.xlsx with Solo as Baseline ###
+
+ contrast          estimate    SE   df t.ratio p.value
+ Solo - Pilot        -1.622 0.183 1559  -8.852  <.0001
+ Solo - Navigator    -1.139 0.182 1559  -6.243  <.0001
+ Pilot - Navigator    0.483 0.179 1559   2.694  0.0195
+
+Degrees-of-freedom method: containment 
+P value adjustment: tukey method for comparing a family of 3 estimates 
+
+### Pairwise Comparisons for Stats_WS2021+SS2022+WS2022_Ready.xlsx with Navigator as Baseline ###
+
+ contrast          estimate    SE   df t.ratio p.value
+ Navigator - Solo     1.139 0.182 1559   6.243  <.0001
+ Navigator - Pilot   -0.483 0.179 1559  -2.694  0.0195
+ Solo - Pilot        -1.622 0.183 1559  -8.852  <.0001
+
+Degrees-of-freedom method: containment 
+P value adjustment: tukey method for comparing a family of 3 estimates 

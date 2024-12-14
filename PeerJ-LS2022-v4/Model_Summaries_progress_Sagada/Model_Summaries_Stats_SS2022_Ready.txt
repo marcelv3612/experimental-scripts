@@ -1,0 +1,100 @@
+Linear mixed-effects model fit by REML
+  Data: long_data 
+       AIC      BIC    logLik
+  2334.812 2424.821 -1145.406
+
+Random effects:
+ Formula: ~1 | Student_ID
+        (Intercept) Residual
+StdDev:    1.962563 2.857162
+
+Fixed effects:  IntrinsicMotivation ~ Role * PersonalityCluster + B5_O + B5_C +      B5_E + B5_A + B5_N 
+                                                      Value Std.Error  DF   t-value p-value
+(Intercept)                                       16.817017  4.428485 425  3.797465  0.0002
+RoleSolo                                          -2.571783  0.474162 425 -5.423850  0.0000
+RoleNavigator                                     -1.077870  0.476549 425 -2.261822  0.0242
+PersonalityClusterConscientiousness               -0.227000  2.694877  17 -0.084234  0.9339
+PersonalityClusterExtraversion                     3.960551  3.878625  17  1.021122  0.3215
+PersonalityClusterAgreeableness                    0.371047  2.559189  17  0.144986  0.8864
+PersonalityClusterNeuroticism                     -0.469377  2.728768  17 -0.172011  0.8655
+B5_O                                               0.891317  1.111351  17  0.802012  0.4336
+B5_C                                              -0.395636  0.759770  17 -0.520731  0.6093
+B5_E                                              -0.111707  0.610320  17 -0.183030  0.8569
+B5_A                                               1.044803  0.860182  17  1.214630  0.2411
+B5_N                                              -0.685860  0.532723  17 -1.287461  0.2152
+RoleSolo:PersonalityClusterConscientiousness       1.349561  1.063894 425  1.268510  0.2053
+RoleNavigator:PersonalityClusterConscientiousness  0.633426  1.064961 425  0.594788  0.5523
+RoleSolo:PersonalityClusterExtraversion           -1.761550  1.716378 425 -1.026318  0.3053
+RoleNavigator:PersonalityClusterExtraversion       0.077870  1.717040 425  0.045351  0.9638
+RoleSolo:PersonalityClusterAgreeableness           0.466017  0.886940 425  0.525421  0.5996
+RoleNavigator:PersonalityClusterAgreeableness      1.540921  0.859181 425  1.793477  0.0736
+RoleSolo:PersonalityClusterNeuroticism             3.249202  1.052879 425  3.086016  0.0022
+RoleNavigator:PersonalityClusterNeuroticism       -0.193479  1.067903 425 -0.181177  0.8563
+ Correlation: 
+                                                  (Intr) RoleSl RlNvgt PrsnCC PrsnCE PrsnCA PrsnCN
+RoleSolo                                          -0.101                                          
+RoleNavigator                                     -0.059  0.510                                   
+PersonalityClusterConscientiousness               -0.626  0.114  0.093                            
+PersonalityClusterExtraversion                    -0.556  0.087  0.066  0.678                     
+PersonalityClusterAgreeableness                   -0.612  0.151  0.097  0.663  0.636              
+PersonalityClusterNeuroticism                     -0.161  0.130  0.090  0.442  0.450  0.670       
+B5_O                                              -0.713  0.036  0.004  0.788  0.758  0.856  0.597
+B5_C                                               0.166  0.036 -0.002 -0.590 -0.459 -0.213 -0.130
+B5_E                                              -0.154  0.013 -0.002 -0.023 -0.199  0.014 -0.006
+B5_A                                              -0.193 -0.043  0.003  0.125  0.102 -0.356 -0.484
+B5_N                                              -0.324  0.006 -0.001 -0.156 -0.196 -0.188 -0.596
+RoleSolo:PersonalityClusterConscientiousness       0.045 -0.446 -0.227 -0.209 -0.039 -0.067 -0.058
+RoleNavigator:PersonalityClusterConscientiousness  0.026 -0.228 -0.447 -0.200 -0.030 -0.044 -0.040
+RoleSolo:PersonalityClusterExtraversion            0.028 -0.276 -0.141 -0.031 -0.228 -0.042 -0.036
+RoleNavigator:PersonalityClusterExtraversion       0.016 -0.141 -0.278 -0.026 -0.223 -0.027 -0.025
+RoleSolo:PersonalityClusterAgreeableness           0.036 -0.534 -0.272 -0.041 -0.030 -0.176 -0.053
+RoleNavigator:PersonalityClusterAgreeableness      0.028 -0.282 -0.555 -0.045 -0.031 -0.153 -0.043
+RoleSolo:PersonalityClusterNeuroticism             0.043 -0.450 -0.229 -0.052 -0.040 -0.067 -0.209
+RoleNavigator:PersonalityClusterNeuroticism        0.021 -0.227 -0.446 -0.042 -0.031 -0.042 -0.189
+                                                  B5_O   B5_C   B5_E   B5_A   B5_N   RS:PCC RN:PCC
+RoleSolo                                                                                          
+RoleNavigator                                                                                     
+PersonalityClusterConscientiousness                                                               
+PersonalityClusterExtraversion                                                                    
+PersonalityClusterAgreeableness                                                                   
+PersonalityClusterNeuroticism                                                                     
+B5_O                                                                                              
+B5_C                                              -0.461                                          
+B5_E                                              -0.079  0.038                                   
+B5_A                                              -0.126 -0.398 -0.310                            
+B5_N                                              -0.183  0.188  0.070  0.186                     
+RoleSolo:PersonalityClusterConscientiousness      -0.016 -0.016 -0.006  0.019 -0.003              
+RoleNavigator:PersonalityClusterConscientiousness -0.002  0.001  0.001 -0.001  0.001  0.502       
+RoleSolo:PersonalityClusterExtraversion           -0.010 -0.010 -0.004  0.012 -0.002  0.123  0.063
+RoleNavigator:PersonalityClusterExtraversion      -0.001  0.001  0.001 -0.001  0.000  0.063  0.124
+RoleSolo:PersonalityClusterAgreeableness           0.002 -0.031  0.006  0.023 -0.019  0.238  0.122
+RoleNavigator:PersonalityClusterAgreeableness      0.005 -0.004  0.009 -0.003 -0.009  0.126  0.248
+RoleSolo:PersonalityClusterNeuroticism            -0.016 -0.014 -0.003  0.018 -0.001  0.201  0.103
+RoleNavigator:PersonalityClusterNeuroticism       -0.001  0.006  0.007 -0.004  0.004  0.101  0.200
+                                                  RS:PCE RN:PCE RS:PCA RN:PCA RS:PCN
+RoleSolo                                                                            
+RoleNavigator                                                                       
+PersonalityClusterConscientiousness                                                 
+PersonalityClusterExtraversion                                                      
+PersonalityClusterAgreeableness                                                     
+PersonalityClusterNeuroticism                                                       
+B5_O                                                                                
+B5_C                                                                                
+B5_E                                                                                
+B5_A                                                                                
+B5_N                                                                                
+RoleSolo:PersonalityClusterConscientiousness                                        
+RoleNavigator:PersonalityClusterConscientiousness                                   
+RoleSolo:PersonalityClusterExtraversion                                             
+RoleNavigator:PersonalityClusterExtraversion       0.501                            
+RoleSolo:PersonalityClusterAgreeableness           0.147  0.076                     
+RoleNavigator:PersonalityClusterAgreeableness      0.078  0.154  0.471              
+RoleSolo:PersonalityClusterNeuroticism             0.124  0.064  0.240  0.127       
+RoleNavigator:PersonalityClusterNeuroticism        0.063  0.124  0.121  0.248  0.486
+
+Standardized Within-Group Residuals:
+        Min          Q1         Med          Q3         Max 
+-3.24233452 -0.59680421  0.02422519  0.57490861  2.80453647 
+
+Number of Observations: 462
+Number of Groups: 27 

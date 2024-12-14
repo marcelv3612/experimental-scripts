@@ -1,0 +1,36 @@
+Linear mixed-effects model fit by REML
+  Data: long_data 
+       AIC      BIC    logLik
+  2362.018 2403.199 -1171.009
+
+Random effects:
+ Formula: ~1 | Student_ID
+        (Intercept) Residual
+StdDev:    1.805537 2.901154
+
+Fixed effects:  IntrinsicMotivation ~ Role + B5_O + B5_C + B5_E + B5_A + B5_N 
+                  Value Std.Error  DF   t-value p-value
+(Intercept)   15.898922 2.5771784 433  6.169119  0.0000
+RolePilot      1.949933 0.3406752 433  5.723730  0.0000
+RoleNavigator  1.279438 0.3423452 433  3.737275  0.0002
+B5_O           0.367026 0.3712701  21  0.988568  0.3341
+B5_C          -0.230168 0.5159065  21 -0.446143  0.6601
+B5_E           0.082403 0.5403566  21  0.152497  0.8803
+B5_A           0.962110 0.5257590  21  1.829945  0.0815
+B5_N          -0.628492 0.3579893  21 -1.755618  0.0937
+ Correlation: 
+              (Intr) RolPlt RlNvgt B5_O   B5_C   B5_E   B5_A  
+RolePilot     -0.038                                          
+RoleNavigator -0.040  0.505                                   
+B5_O          -0.372  0.019  0.011                            
+B5_C          -0.371 -0.036 -0.038 -0.233                     
+B5_E          -0.302 -0.016 -0.011 -0.095 -0.054              
+B5_A          -0.298  0.004  0.014  0.030 -0.233 -0.334       
+B5_N          -0.497 -0.015 -0.019  0.092  0.217  0.053 -0.133
+
+Standardized Within-Group Residuals:
+         Min           Q1          Med           Q3          Max 
+-3.224470971 -0.599416483  0.004700048  0.593967641  2.808231936 
+
+Number of Observations: 462
+Number of Groups: 27 
